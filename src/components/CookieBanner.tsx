@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Check, X } from 'lucide-react';
+import { Check } from 'lucide-react';
 
 export default function CookieBanner() {
   const [isVisible, setIsVisible] = useState(false);
