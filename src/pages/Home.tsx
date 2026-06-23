@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
+
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { ChevronDown, Star, Clock, Users, Flame, MapPin, Phone, MessageCircle } from 'lucide-react';
 import MenuCard, { type MenuItem } from '../components/MenuCard';
@@ -64,12 +64,10 @@ export default function Home() {
 
   return (
     <div className="min-h-screen overflow-x-hidden">
-      <Helmet>
-        <title>Соль и Перец — Кафе в Сходне | Шашлык, Плов, Банкеты</title>
-        <meta name="description" content="Кафе Соль и Перец — вкусная домашняя кухня в Сходне. Шашлык, плов, гриль, банкеты. Доставка, бронирование столов. ул. Некрасова 15." />
-        <meta property="og:title" content="Соль и Перец — Кафе в Сходне" />
-        <meta property="og:description" content="Домашняя кухня и уютная атмосфера. Шашлык, плов, гриль, банкеты." />
-      </Helmet>
+      <title>Соль и Перец — Кафе в Сходне | Шашлык, Плов, Банкеты</title>
+      <meta name="description" content="Кафе Соль и Перец — вкусная домашняя кухня в Сходне. Шашлык, плов, гриль, банкеты. Доставка, бронирование столов. ул. Некрасова 15." />
+      <meta property="og:title" content="Соль и Перец — Кафе в Сходне" />
+      <meta property="og:description" content="Домашняя кухня и уютная атмосфера. Шашлык, плов, гриль, банкеты." />
 
       {/* ══ HERO ══ */}
       <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">

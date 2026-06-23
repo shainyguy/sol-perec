@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
+
 import { Star, MessageCircle, ExternalLink, ChevronRight } from 'lucide-react';
 
 const YANDEX_ORG_ID = '172085958854';
@@ -8,10 +8,8 @@ const YANDEX_MAPS_URL = `https://yandex.ru/maps/org/sol_i_perets/${YANDEX_ORG_ID
 export default function Reviews() {
   return (
     <div className="min-h-screen bg-sp-darkest pt-20">
-      <Helmet>
-        <title>Отзывы — Соль и Перец | Сходня</title>
-        <meta name="description" content="Отзывы гостей кафе Соль и Перец в Сходне на Яндекс.Картах. Оставьте своё мнение о посещении, еде и обслуживании." />
-      </Helmet>
+      <title>Отзывы — Соль и Перец | Сходня</title>
+      <meta name="description" content="Отзывы гостей кафе Соль и Перец в Сходне. Узнайте, что говорят о нас посетители." />
 
       <div className="bg-sp-dark py-12">
         <div className="container mx-auto px-4">

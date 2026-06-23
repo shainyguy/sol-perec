@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
+
 import { Users, Calendar, ChevronDown, ChevronUp, Check } from 'lucide-react';
 import { createBanquet } from '../lib/db';
 import { formatPhone, isValidPhone } from '../lib/phone';
@@ -73,10 +73,8 @@ export default function Banquet() {
 
   return (
     <div className="min-h-screen bg-sp-darkest pt-20">
-      <Helmet>
-        <title>Банкеты и мероприятия — Соль и Перец | Сходня</title>
-        <meta name="description" content="Организуем банкеты, дни рождения, корпоративы и свадьбы в кафе Соль и Перец в Сходне. Вместимость до 200 человек, живая музыка." />
-      </Helmet>
+      <title>Банкеты и мероприятия — Соль и Перец | Сходня</title>
+      <meta name="description" content="Организуем банкеты, дни рождения, корпоративы и свадьбы в кафе Соль и Перец в Сходне. Вместимость до 200 человек, живая музыка." />
       <div className="relative bg-sp-dark py-16 overflow-hidden">
         <div className="absolute inset-0 opacity-15" style={{ backgroundImage: 'url(/images/banquet.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }} />
         <div className="relative container mx-auto px-4">

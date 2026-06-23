@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
+
 
 export default function Terms() {
   const companyName = "Соль & Перец";
@@ -12,10 +12,8 @@ export default function Terms() {
 
   return (
     <div className="min-h-screen bg-sp-darkest pt-24 pb-12">
-      <Helmet>
-        <title>Договор оферты — Соль и Перец</title>
-        <meta name="description" content="Договор публичной оферты кафе Соль и Перец. Условия бронирования, доставки и возврата." />
-      </Helmet>
+      <title>Договор оферты — Соль и Перец</title>
+      <meta name="description" content="Договор публичной оферты кафе Соль и Перец. Условия бронирования, доставки и возврата." />
       <div className="container mx-auto px-4 max-w-3xl">
         <h1 className="font-display text-3xl md:text-4xl text-sp-cream font-bold mb-8 leading-tight">
           Пользовательское соглашение <br/>

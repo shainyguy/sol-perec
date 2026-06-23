@@ -1,14 +1,12 @@
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
+
 import { Phone, MapPin, Clock, Navigation } from 'lucide-react';
 
 export default function Contacts() {
   return (
     <div className="min-h-screen bg-sp-darkest pt-20">
-      <Helmet>
-        <title>Контакты — Соль и Перец | Сходня</title>
-        <meta name="description" content="Контакты кафе Соль и Перец в Сходне. Адрес: ул. Некрасова 15, Химки. Телефон: +7 (925) 767-77-78. Часы работы, схема проезда." />
-      </Helmet>
+      <title>Контакты — Соль и Перец | Сходня</title>
+      <meta name="description" content="Контакты кафе Соль и Перец в Сходне. Адрес: ул. Некрасова 15, Химки. Телефон: +7 (925) 767-77-78. Часы работы, схема проезда." />
       <div className="bg-sp-dark py-12">
         <div className="container mx-auto px-4">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>

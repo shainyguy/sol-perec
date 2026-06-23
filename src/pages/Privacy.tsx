@@ -1,4 +1,4 @@
-import { Helmet } from 'react-helmet-async';
+
 
 export default function Privacy() {
   const ipName = "ИП Алиев Эхтибар Джахид оглы";
@@ -11,10 +11,8 @@ export default function Privacy() {
 
   return (
     <div className="min-h-screen bg-sp-darkest pt-24 pb-12">
-      <Helmet>
-        <title>Политика конфиденциальности — Соль и Перец</title>
-        <meta name="description" content="Политика конфиденциальности кафе Соль и Перец. Обработка персональных данных, файлы cookie." />
-      </Helmet>
+      <title>Политика конфиденциальности — Соль и Перец</title>
+      <meta name="description" content="Политика конфиденциальности кафе Соль и Перец. Обработка персональных данных, файлы cookie." />
       <div className="container mx-auto px-4 max-w-3xl">
         <h1 className="font-display text-3xl md:text-4xl text-sp-cream font-bold mb-8 leading-tight">
           Политика в отношении <br/>

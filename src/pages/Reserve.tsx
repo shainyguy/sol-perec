@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
+
 import { Calendar, User, MapPin, Clock, Info } from 'lucide-react';
 import FloorPlan from '../components/FloorPlan';
 import { formatPhone, isValidPhone } from '../lib/phone';
@@ -163,10 +163,8 @@ export default function Reserve() {
       />
 
       <div className="min-h-screen bg-sp-darkest pt-20">
-        <Helmet>
-          <title>Бронирование стола — Соль и Перец | Сходня</title>
-          <meta name="description" content="Забронируйте стол в кафе Соль и Перец в Сходне. Выберите место на схеме зала, укажите дату и время. Банкеты и мероприятия." />
-        </Helmet>
+        <title>Бронирование стола — Соль и Перец | Сходня</title>
+        <meta name="description" content="Забронируйте стол в кафе Соль и Перец в Сходне. Выберите место на схеме зала, укажите дату и время. Банкеты и мероприятия." />
         <div className="bg-sp-dark py-12">
           <div className="container mx-auto px-4">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>

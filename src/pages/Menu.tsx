@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
 import { Search, QrCode } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
 import MenuCard, { type MenuItem } from '../components/MenuCard';
@@ -87,12 +86,10 @@ export default function Menu() {
 
   return (
     <div className="min-h-screen bg-sp-darkest pt-20">
-      <Helmet>
-        <title>{showBar ? 'Меню бара' : 'Меню'} — Соль и Перец | Сходня</title>
-        <meta name="description" content={showBar
-          ? 'Барное меню кафе Соль и Перец в Сходне. Пиво, сидр, коктейли, безалкогольные напитки. Чрезмерное употребление алкоголя вредит вашему здоровью.'
-          : 'Меню кафе Соль и Перец в Сходне. Шашлык, плов, садж, горячие блюда, салаты, напитки и десерты. Доставка и самовывоз.'} />
-      </Helmet>
+      <title>{showBar ? 'Меню бара' : 'Меню'} — Соль и Перец | Сходня</title>
+      <meta name="description" content={showBar
+        ? 'Барное меню кафе Соль и Перец в Сходне. Пиво, сидр, коктейли, безалкогольные напитки. Чрезмерное употребление алкоголя вредит вашему здоровью.'
+        : 'Меню кафе Соль и Перец в Сходне. Шашлык, плов, садж, горячие блюда, салаты, напитки и десерты. Доставка и самовывоз.'} />
       <div className="bg-sp-dark py-12">
         <div className="container mx-auto px-4">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
