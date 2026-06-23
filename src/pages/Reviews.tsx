@@ -1,9 +1,37 @@
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
-import { Star, ExternalLink, MessageCircle } from 'lucide-react';
+import { Star, MessageCircle, ExternalLink } from 'lucide-react';
 
 const YANDEX_ORG_ID = '172085958854';
 const YANDEX_MAPS_URL = `https://yandex.ru/maps/org/sol_i_perets/${YANDEX_ORG_ID}/reviews/`;
+
+function YandexReviewsWidget({ height = '700px' }: { height?: string }) {
+  return (
+    <div style={{ width: '100%', height, overflow: 'hidden', position: 'relative' }} className="rounded-2xl">
+      <iframe
+        style={{ width: '100%', height: '100%', border: 0, borderRadius: '8px', boxSizing: 'border-box' }}
+        src={`https://yandex.ru/maps-reviews-widget/${YANDEX_ORG_ID}?comments`}
+        title="Отзывы на Яндекс.Картах"
+        loading="lazy"
+      />
+      <a
+        href={YANDEX_MAPS_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          boxSizing: 'border-box', textDecoration: 'none', color: '#b3b3b3',
+          fontSize: '10px', fontFamily: 'YS Text, sans-serif',
+          padding: '0 20px', position: 'absolute', bottom: '8px',
+          width: '100%', textAlign: 'center', left: 0,
+          overflow: 'hidden', textOverflow: 'ellipsis',
+          display: 'block', maxHeight: '14px', whiteSpace: 'nowrap',
+        }}
+      >
+        Соль и Перец на карте Химок — Яндекс Карты
+      </a>
+    </div>
+  );
+}
 
 export default function Reviews() {
   return (
@@ -24,22 +52,17 @@ export default function Reviews() {
 
       <div className="container mx-auto px-4 py-10">
         <div className="grid lg:grid-cols-3 gap-10">
+
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl overflow-hidden h-[600px] lg:h-[700px] border border-white/10">
-              <iframe
-                src={`https://yandex.ru/maps-reviews-widget/${YANDEX_ORG_ID}?theme=dark`}
-                width="100%"
-                height="100%"
-                frameBorder="0"
-                title="Отзывы на Яндекс.Картах"
-              />
+            <div className="bg-white rounded-2xl overflow-hidden border border-white/10 shadow-xl">
+              <YandexReviewsWidget height="700px" />
             </div>
           </div>
 
           <div>
-            <div className="bg-sp-dark rounded-2xl p-6 sticky top-24 border border-white/5">
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-12 h-12 rounded-xl bg-yellow-500/20 flex items-center justify-center">
+            <div className="bg-sp-dark rounded-2xl p-6 sticky top-24 border border-white/5 flex flex-col gap-5">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-xl bg-yellow-500/20 flex items-center justify-center flex-shrink-0">
                   <Star size={24} className="text-yellow-500" />
                 </div>
                 <div>
@@ -48,18 +71,18 @@ export default function Reviews() {
                 </div>
               </div>
 
-              <p className="text-sp-cream/70 text-sm leading-relaxed mb-6">
+              <div className="bg-white/5 rounded-xl p-4 text-sm text-sp-cream/70 leading-relaxed">
                 Мы ценим мнение каждого гостя. Все отзывы публикуются на Яндекс.Картах — честные и неподдельные.
-              </p>
+              </div>
 
               <a
                 href={YANDEX_MAPS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-primary w-full flex items-center justify-center gap-2 mb-3"
+                className="btn-primary w-full flex items-center justify-center gap-2"
               >
                 <Star size={16} />
-                Все отзывы на Яндекс.Картах
+                Все отзывы
               </a>
 
               <a
@@ -72,19 +95,18 @@ export default function Reviews() {
                 Оставить отзыв
               </a>
 
-              <div className="mt-6 pt-5 border-t border-white/10">
-                <a
-                  href="https://yandex.ru/maps/org/sol_i_perets/172085958854/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 text-sp-cream/40 hover:text-sp-orange text-xs transition-colors"
-                >
-                  <ExternalLink size={12} />
-                  Открыть на Яндекс.Картах
-                </a>
-              </div>
+              <a
+                href="https://yandex.ru/maps/org/sol_i_perets/172085958854/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 text-sp-cream/30 hover:text-sp-orange text-xs transition-colors pt-2 border-t border-white/5"
+              >
+                <ExternalLink size={12} />
+                Открыть на Яндекс.Картах
+              </a>
             </div>
           </div>
+
         </div>
       </div>
     </div>

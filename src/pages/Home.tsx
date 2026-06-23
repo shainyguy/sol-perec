@@ -261,14 +261,28 @@ export default function Home() {
             <h2 className="section-title">Отзывы на Яндекс.Картах</h2>
             <Link to="/reviews" className="text-sp-orange hover:underline text-sm">Все отзывы →</Link>
           </div>
-          <div className="bg-white rounded-2xl overflow-hidden h-80 border border-white/10">
+          <div className="bg-white rounded-2xl overflow-hidden border border-white/10 shadow-xl" style={{ height: '400px', position: 'relative' }}>
             <iframe
-              src="https://yandex.ru/maps-reviews-widget/172085958854?theme=dark"
-              width="100%"
-              height="100%"
-              frameBorder="0"
+              src="https://yandex.ru/maps-reviews-widget/172085958854?comments"
+              style={{ width: '100%', height: '100%', border: 0 }}
               title="Отзывы на Яндекс.Картах"
+              loading="lazy"
             />
+            <a
+              href="https://yandex.ru/maps/org/sol_i_perets/172085958854/reviews/"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                boxSizing: 'border-box', textDecoration: 'none', color: '#b3b3b3',
+                fontSize: '10px', fontFamily: 'YS Text, sans-serif',
+                padding: '0 20px', position: 'absolute', bottom: '8px',
+                width: '100%', textAlign: 'center', left: 0,
+                overflow: 'hidden', textOverflow: 'ellipsis',
+                display: 'block', maxHeight: '14px', whiteSpace: 'nowrap',
+              }}
+            >
+              Соль и Перец на карте Химок — Яндекс Карты
+            </a>
           </div>
           <div className="text-center mt-6">
             <a
