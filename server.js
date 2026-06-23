@@ -7,6 +7,7 @@ import express from 'express';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -75,10 +76,41 @@ app.get('/api/health', (_req, res) => res.json({
   db: process.env.DATABASE_URL ? '✅ connected' : '❌ DATABASE_URL missing',
 }));
 
+// ── Per-page meta for SEO (injected into static index.html) ──────────────────
+const PAGE_META = {
+  '/':        { title: 'Соль и Перец — Кафе в Сходне | Шашлык, Плов, Банкеты',
+                desc: 'Кафе Соль и Перец — вкусная домашняя кухня в Сходне. Шашлык, плов, гриль, банкеты. Доставка, бронирование столов. ул. Некрасова 15.' },
+  '/menu':    { title: 'Меню — Соль и Перец | Сходня',
+                desc: 'Меню кафе Соль и Перец в Сходне. Шашлык, плов, садж, горячие блюда, салаты, напитки и десерты. Доставка и самовывоз.' },
+  '/reserve': { title: 'Бронирование стола — Соль и Перец | Сходня',
+                desc: 'Забронируйте стол в кафе Соль и Перец в Сходне. Выберите место на схеме зала, укажите дату и время.' },
+  '/banquet': { title: 'Банкеты и мероприятия — Соль и Перец | Сходня',
+                desc: 'Организуем банкеты, дни рождения, корпоративы и свадьбы в кафе Соль и Перец в Сходне. Вместимость до 200 человек.' },
+  '/reviews': { title: 'Отзывы — Соль и Перец | Сходня',
+                desc: 'Отзывы гостей кафе Соль и Перец в Сходне. Узнайте, что говорят о нас посетители.' },
+  '/contacts':{ title: 'Контакты — Соль и Перец | Сходня',
+                desc: 'Контакты кафе Соль и Перец в Сходне. Адрес: ул. Некрасова 15, Химки. Телефон: +7 (925) 767-77-78.' },
+  '/privacy': { title: 'Политика конфиденциальности — Соль и Перец',
+                desc: 'Политика конфиденциальности кафе Соль и Перец. Обработка персональных данных, файлы cookie.' },
+  '/terms':   { title: 'Договор оферты — Соль и Перец',
+                desc: 'Договор публичной оферты кафе Соль и Перец. Условия бронирования, доставки и возврата.' },
+  '/admin':   { title: 'Админ-панель — Соль и Перец',
+                desc: 'Панель управления кафе Соль и Перец.' },
+};
+const indexHtml = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
+function injectMeta(req, res) {
+  const route = PAGE_META[req.path];
+  if (!route) return res.send(indexHtml);
+  const html = indexHtml
+    .replace(/<title>[^<]*<\/title>/, `<title>${route.title}</title>`)
+    .replace(/<meta name="description"[^>]*\/>/, `<meta name="description" content="${route.desc}" />`);
+  res.send(html);
+}
+
 // ── React SPA ─────────────────────────────────────────────────────────────────
 const dist = path.join(__dirname, 'dist');
 app.use(express.static(dist, { maxAge: '1d' }));
-app.get('*', (_req, res) => res.sendFile(path.join(dist, 'index.html')));
+app.get('*', injectMeta);
 
 // ── Start ─────────────────────────────────────────────────────────────────────
 app.listen(PORT, '0.0.0.0', () => {

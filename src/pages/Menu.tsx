@@ -57,6 +57,10 @@ export default function Menu() {
       .catch(() => setLoading(false));
   }, [showBar]);
 
+  useEffect(() => {
+    document.title = showBar ? 'Меню бара — Соль и Перец | Сходня' : 'Меню — Соль и Перец | Сходня';
+  }, [showBar]);
+
   const CATS = showBar ? BAR_CATS : FOOD_CATS;
 
   const filtered = items.filter(item => {
@@ -155,7 +159,7 @@ export default function Menu() {
               <span className="text-sp-cream/60 text-xs">Без лактозы</span>
             </label>
           </div>
-          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+          <div className="flex gap-2 pb-1 category-scroll">
             {dynamicCatTabs.map(c => (
               <button key={c.id} onClick={() => setActiveCategory(c.id)} className={`category-tab flex-shrink-0 ${activeCategory === c.id ? 'category-tab-active' : ''}`}>{c.label}</button>
             ))}

@@ -513,13 +513,22 @@ body {
   color: #E8621A;
 }
 
-/* Scrollbar hide */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+/* Category tabs scroll */
+.category-scroll {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.12) transparent;
+  -webkit-overflow-scrolling: touch;
 }
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
+.category-scroll::-webkit-scrollbar {
+  height: 4px;
+}
+.category-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.category-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.12);
+  border-radius: 2px;
 }
 
 /* Container */
