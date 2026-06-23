@@ -1,105 +1,88 @@
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
-import { Star, Send } from 'lucide-react';
-import { getReviews, createReview } from '../lib/db';
+import { Star, ExternalLink, MessageCircle } from 'lucide-react';
 
-interface Review { id: number; author_name: string; rating: number; text: string; created_at: string; }
+const YANDEX_ORG_ID = '172085958854';
+const YANDEX_MAPS_URL = `https://yandex.ru/maps/org/sol_i_perets/${YANDEX_ORG_ID}/reviews/`;
 
 export default function Reviews() {
-  const [reviews, setReviews] = useState<Review[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [form, setForm] = useState({ name: '', rating: 5, text: '' });
-  const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-
-  useEffect(() => {
-    getReviews()
-      .then(data => { setReviews(data as Review[]); setLoading(false); })
-      .catch(() => setLoading(false));
-  }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!form.name || !form.text) return;
-    setSubmitting(true);
-    try {
-      await createReview({ author_name: form.name, rating: form.rating, text: form.text });
-      setSubmitted(true);
-    } finally { setSubmitting(false); }
-  };
-
-  const avgRating = reviews.length
-    ? (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1)
-    : '—';
-
   return (
     <div className="min-h-screen bg-sp-darkest pt-20">
       <Helmet>
         <title>Отзывы — Соль и Перец | Сходня</title>
-        <meta name="description" content="Отзывы гостей кафе Соль и Перец в Сходне. Оставьте своё мнение о посещении, еде и обслуживании." />
+        <meta name="description" content="Отзывы гостей кафе Соль и Перец в Сходне на Яндекс.Картах. Оставьте своё мнение о посещении, еде и обслуживании." />
       </Helmet>
+
       <div className="bg-sp-dark py-12">
         <div className="container mx-auto px-4">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <h1 className="font-display text-4xl md:text-5xl text-sp-cream font-bold mb-2">Отзывы</h1>
-            <div className="flex items-center gap-3 mt-3">
-              <div className="flex gap-1">{[1,2,3,4,5].map(i => <Star key={i} size={20} className={i <= Math.round(parseFloat(avgRating)) ? 'text-sp-orange fill-sp-orange' : 'text-sp-cream/20'} />)}</div>
-              <span className="text-sp-cream font-bold text-xl">{avgRating}</span>
-              <span className="text-sp-cream/40 text-sm">({reviews.length} отзывов)</span>
-            </div>
+            <p className="text-sp-cream/50 text-sm">Реальные отзывы наших гостей с Яндекс.Карт</p>
           </motion.div>
         </div>
       </div>
+
       <div className="container mx-auto px-4 py-10">
         <div className="grid lg:grid-cols-3 gap-10">
           <div className="lg:col-span-2">
-            {loading ? (
-              <div className="flex flex-col gap-4">{[1,2,3].map(i => <div key={i} className="skeleton-card h-32" />)}</div>
-            ) : reviews.length === 0 ? (
-              <div className="text-center py-20 text-sp-cream/40">Отзывов пока нет. Будьте первым!</div>
-            ) : (
-              <div className="flex flex-col gap-4">
-                {reviews.map((r, i) => (
-                  <motion.div key={r.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }} className="review-card">
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <div className="text-sp-cream font-semibold">{r.author_name}</div>
-                        <div className="text-sp-cream/30 text-xs mt-0.5">{new Date(r.created_at).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
-                      </div>
-                      <div className="flex gap-0.5">{[1,2,3,4,5].map(s => <Star key={s} size={14} className={s <= r.rating ? 'text-sp-orange fill-sp-orange' : 'text-sp-cream/20'} />)}</div>
-                    </div>
-                    <p className="text-sp-cream/70 text-sm leading-relaxed">{r.text}</p>
-                  </motion.div>
-                ))}
-              </div>
-            )}
+            <div className="bg-white rounded-2xl overflow-hidden h-[600px] lg:h-[700px] border border-white/10">
+              <iframe
+                src={`https://yandex.ru/maps-reviews-widget/${YANDEX_ORG_ID}?theme=dark`}
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                title="Отзывы на Яндекс.Картах"
+              />
+            </div>
           </div>
+
           <div>
-            <div className="bg-sp-dark rounded-2xl p-6 sticky top-24">
-              <h2 className="font-display text-xl text-sp-cream font-bold mb-5">Оставить отзыв</h2>
-              {submitted ? (
-                <div className="text-center py-6"><div className="text-4xl mb-3">🙏</div><p className="text-sp-cream/70">Спасибо! Ваш отзыв отправлен на модерацию.</p></div>
-              ) : (
-                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                  <div><label className="form-label">Ваше имя</label><input type="text" value={form.name} onChange={e => setForm(v => ({ ...v, name: e.target.value }))} className="form-input" required /></div>
-                  <div>
-                    <label className="form-label">Оценка</label>
-                    <div className="flex gap-2 mt-1">
-                      {[1,2,3,4,5].map(s => (
-                        <button key={s} type="button" onClick={() => setForm(v => ({ ...v, rating: s }))} className="transition-transform hover:scale-110">
-                          <Star size={24} className={s <= form.rating ? 'text-sp-orange fill-sp-orange' : 'text-sp-cream/20'} />
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                  <div><label className="form-label">Отзыв</label><textarea value={form.text} onChange={e => setForm(v => ({ ...v, text: e.target.value }))} className="form-input resize-none h-28" required /></div>
-                  <button type="submit" disabled={submitting} className="btn-primary flex items-center justify-center gap-2">
-                    <Send size={16} />{submitting ? 'Отправка...' : 'Отправить отзыв'}
-                  </button>
-                  <p className="text-sp-cream/30 text-xs">Отзыв пройдёт модерацию перед публикацией</p>
-                </form>
-              )}
+            <div className="bg-sp-dark rounded-2xl p-6 sticky top-24 border border-white/5">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-12 h-12 rounded-xl bg-yellow-500/20 flex items-center justify-center">
+                  <Star size={24} className="text-yellow-500" />
+                </div>
+                <div>
+                  <h2 className="font-display text-xl text-sp-cream font-bold">Яндекс.Карты</h2>
+                  <p className="text-sp-cream/50 text-xs">Рейтинг и отзывы</p>
+                </div>
+              </div>
+
+              <p className="text-sp-cream/70 text-sm leading-relaxed mb-6">
+                Мы ценим мнение каждого гостя. Все отзывы публикуются на Яндекс.Картах — честные и неподдельные.
+              </p>
+
+              <a
+                href={YANDEX_MAPS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary w-full flex items-center justify-center gap-2 mb-3"
+              >
+                <Star size={16} />
+                Все отзывы на Яндекс.Картах
+              </a>
+
+              <a
+                href={YANDEX_MAPS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-secondary w-full flex items-center justify-center gap-2"
+              >
+                <MessageCircle size={16} />
+                Оставить отзыв
+              </a>
+
+              <div className="mt-6 pt-5 border-t border-white/10">
+                <a
+                  href="https://yandex.ru/maps/org/sol_i_perets/172085958854/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 text-sp-cream/40 hover:text-sp-orange text-xs transition-colors"
+                >
+                  <ExternalLink size={12} />
+                  Открыть на Яндекс.Картах
+                </a>
+              </div>
             </div>
           </div>
         </div>

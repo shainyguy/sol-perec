@@ -2,13 +2,12 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
-import { ChevronDown, Star, Clock, Users, Flame, MapPin, Phone } from 'lucide-react';
+import { ChevronDown, Star, Clock, Users, Flame, MapPin, Phone, MessageCircle } from 'lucide-react';
 import MenuCard, { type MenuItem } from '../components/MenuCard';
 import { cartStore } from '../lib/cart';
-import { getMenuItems, getPromotions, getReviews, getGallery } from '../lib/db';
+import { getMenuItems, getPromotions, getGallery } from '../lib/db';
 
 interface Promo { id: number; title: string; description: string; discount_text: string; expires_at: string; }
-interface Review { id: number; author_name: string; rating: number; text: string; created_at: string; }
 interface GalleryItem { id: number; url: string; caption: string; }
 
 function Countdown({ target }: { target: string }) {
@@ -39,7 +38,6 @@ export default function Home() {
   const [featured, setFeatured] = useState<MenuItem[]>([]);
   const [special, setSpecial] = useState<MenuItem | null>(null);
   const [promos, setPromos] = useState<Promo[]>([]);
-  const [reviews, setReviews] = useState<Review[]>([]);
   const [gallery, setGallery] = useState<GalleryItem[]>([]);
   const [lightbox, setLightbox] = useState<string | null>(null);
 
@@ -54,21 +52,15 @@ export default function Home() {
     Promise.all([
       getMenuItems({ bar: false }),
       getPromotions(),
-      getReviews(),
       getGallery(),
-    ]).then(([menu, p, rv, g]) => {
+    ]).then(([menu, p, g]) => {
       const sp = (menu as MenuItem[]).find(d => d.is_special);
       if (sp) setSpecial(sp);
       setFeatured((menu as MenuItem[]).filter(d => !d.is_special).slice(0, 6));
       setPromos(p as Promo[]);
-      setReviews((rv as Review[]).slice(0, 4));
       setGallery((g as GalleryItem[]).slice(0, 6));
     }).catch(console.error);
   }, []);
-
-  const avgRating = reviews.length
-    ? (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1)
-    : null;
 
   return (
     <div className="min-h-screen overflow-x-hidden">
@@ -114,12 +106,12 @@ export default function Home() {
             <Link to="/menu" className="btn-hero-primary">🍽️ Смотреть меню</Link>
             <Link to="/reserve" className="btn-hero-secondary">🗓️ Забронировать стол</Link>
           </motion.div>
-          {avgRating && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1 }} className="mt-10 flex items-center justify-center gap-2">
-              <div className="flex gap-0.5">{[1,2,3,4,5].map(i => <Star key={i} size={14} className={i <= Math.round(parseFloat(avgRating)) ? 'text-sp-orange fill-sp-orange' : 'text-white/20'} />)}</div>
-              <span className="text-sp-cream/60 text-sm">{avgRating} · {reviews.length} отзывов</span>
-            </motion.div>
-          )}
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1 }} className="mt-10">
+            <a href="https://yandex.ru/maps/org/sol_i_perets/172085958854/reviews/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sp-cream/50 hover:text-sp-orange text-sm transition-colors">
+              <Star size={14} className="text-sp-orange" />
+              Читать отзывы на Яндекс.Картах
+            </a>
+          </motion.div>
         </motion.div>
         <motion.div animate={{ y: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 2.5 }} className="absolute bottom-8 left-1/2 -translate-x-1/2 text-sp-cream/30">
           <ChevronDown size={30} />
@@ -134,7 +126,7 @@ export default function Home() {
               { icon: <Flame size={22} />, val: '150+', label: 'Блюд в меню' },
               { icon: <Clock size={22} />, val: 'До 05:00', label: 'В выходные' },
               { icon: <Users size={22} />, val: '100', label: 'Мест для банкетов' },
-              { icon: <Star size={22} />, val: avgRating ?? '4.8', label: 'Средняя оценка' },
+              { icon: <Star size={22} />, val: '4.8', label: 'Рейтинг на Яндекс.Картах' },
             ].map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="stat-card">
                 <div className="text-sp-orange mb-1">{s.icon}</div>
@@ -263,39 +255,34 @@ export default function Home() {
       </section>
 
       {/* ══ REVIEWS ══ */}
-      {reviews.length > 0 && (
-        <section className="py-16 bg-sp-darkest">
-          <div className="container mx-auto px-4">
-            <div className="section-header mb-8">
-              <div>
-                <h2 className="section-title">Отзывы гостей</h2>
-                {avgRating && (
-                  <div className="flex items-center gap-2 mt-1">
-                    <div className="flex gap-0.5">{[1,2,3,4,5].map(i => <Star key={i} size={14} className={i <= Math.round(parseFloat(avgRating)) ? 'text-sp-orange fill-sp-orange' : 'text-white/20'} />)}</div>
-                    <span className="text-sp-cream/50 text-sm">{avgRating} из 5</span>
-                  </div>
-                )}
-              </div>
-              <Link to="/reviews" className="text-sp-orange hover:underline text-sm">Все отзывы →</Link>
-            </div>
-            <div className="grid md:grid-cols-2 gap-4">
-              {reviews.map((r, i) => (
-                <motion.div key={r.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }} className="review-card">
-                  <div className="flex items-start justify-between mb-3">
-                    <div>
-                      <div className="text-sp-cream font-semibold">{r.author_name}</div>
-                      <div className="text-sp-cream/30 text-xs mt-0.5">{new Date(r.created_at).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
-                    </div>
-                    <div className="flex gap-0.5">{[1,2,3,4,5].map(s => <Star key={s} size={13} className={s <= r.rating ? 'text-sp-orange fill-sp-orange' : 'text-white/15'} />)}</div>
-                  </div>
-                  <p className="text-sp-cream/65 text-sm leading-relaxed">{r.text}</p>
-                </motion.div>
-              ))}
-            </div>
-            <div className="text-center mt-8"><Link to="/reviews" className="btn-secondary">Оставить отзыв</Link></div>
+      <section className="py-16 bg-sp-darkest">
+        <div className="container mx-auto px-4">
+          <div className="section-header mb-8">
+            <h2 className="section-title">Отзывы на Яндекс.Картах</h2>
+            <Link to="/reviews" className="text-sp-orange hover:underline text-sm">Все отзывы →</Link>
           </div>
-        </section>
-      )}
+          <div className="bg-white rounded-2xl overflow-hidden h-80 border border-white/10">
+            <iframe
+              src="https://yandex.ru/maps-reviews-widget/172085958854?theme=dark"
+              width="100%"
+              height="100%"
+              frameBorder="0"
+              title="Отзывы на Яндекс.Картах"
+            />
+          </div>
+          <div className="text-center mt-6">
+            <a
+              href="https://yandex.ru/maps/org/sol_i_perets/172085958854/reviews/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-secondary inline-flex items-center gap-2"
+            >
+              <MessageCircle size={16} />
+              Оставить отзыв на Яндекс.Картах
+            </a>
+          </div>
+        </div>
+      </section>
 
       {/* ══ MAP ══ */}
       <section className="py-16 bg-sp-dark">
