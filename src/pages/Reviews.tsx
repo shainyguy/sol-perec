@@ -1,37 +1,9 @@
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
-import { Star, MessageCircle, ExternalLink } from 'lucide-react';
+import { Star, MessageCircle, ExternalLink, ChevronRight } from 'lucide-react';
 
 const YANDEX_ORG_ID = '172085958854';
 const YANDEX_MAPS_URL = `https://yandex.ru/maps/org/sol_i_perets/${YANDEX_ORG_ID}/reviews/`;
-
-function YandexReviewsWidget({ height = '700px' }: { height?: string }) {
-  return (
-    <div style={{ width: '100%', height, overflow: 'hidden', position: 'relative' }} className="rounded-2xl">
-      <iframe
-        style={{ width: '100%', height: '100%', border: 0, borderRadius: '8px', boxSizing: 'border-box' }}
-        src={`https://yandex.ru/maps-reviews-widget/${YANDEX_ORG_ID}?comments`}
-        title="Отзывы на Яндекс.Картах"
-        loading="lazy"
-      />
-      <a
-        href={YANDEX_MAPS_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{
-          boxSizing: 'border-box', textDecoration: 'none', color: '#b3b3b3',
-          fontSize: '10px', fontFamily: 'YS Text, sans-serif',
-          padding: '0 20px', position: 'absolute', bottom: '8px',
-          width: '100%', textAlign: 'center', left: 0,
-          overflow: 'hidden', textOverflow: 'ellipsis',
-          display: 'block', maxHeight: '14px', whiteSpace: 'nowrap',
-        }}
-      >
-        Соль и Перец на карте Химок — Яндекс Карты
-      </a>
-    </div>
-  );
-}
 
 export default function Reviews() {
   return (
@@ -45,68 +17,98 @@ export default function Reviews() {
         <div className="container mx-auto px-4">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <h1 className="font-display text-4xl md:text-5xl text-sp-cream font-bold mb-2">Отзывы</h1>
-            <p className="text-sp-cream/50 text-sm">Реальные отзывы наших гостей с Яндекс.Карт</p>
+            <p className="text-sp-cream/50">Реальные отзывы наших гостей на Яндекс.Картах</p>
           </motion.div>
         </div>
       </div>
 
       <div className="container mx-auto px-4 py-10">
-        <div className="grid lg:grid-cols-3 gap-10">
-
-          <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl overflow-hidden border border-white/10 shadow-xl">
-              <YandexReviewsWidget height="700px" />
+        <div className="max-w-2xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-gradient-to-br from-sp-orange/10 to-sp-terracotta/5 border border-sp-orange/20 rounded-3xl p-8 md:p-12 text-center"
+          >
+            <div className="w-20 h-20 rounded-full bg-yellow-500/20 flex items-center justify-center mx-auto mb-6">
+              <Star size={40} className="text-yellow-500" />
             </div>
-          </div>
 
-          <div>
-            <div className="bg-sp-dark rounded-2xl p-6 sticky top-24 border border-white/5 flex flex-col gap-5">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-yellow-500/20 flex items-center justify-center flex-shrink-0">
-                  <Star size={24} className="text-yellow-500" />
-                </div>
-                <div>
-                  <h2 className="font-display text-xl text-sp-cream font-bold">Яндекс.Карты</h2>
-                  <p className="text-sp-cream/50 text-xs">Рейтинг и отзывы</p>
-                </div>
+            <h2 className="font-display text-3xl md:text-4xl text-sp-cream font-bold mb-3">
+              Наш рейтинг на Яндекс.Картах
+            </h2>
+
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <div className="flex gap-1">
+                {[1, 2, 3, 4, 5].map(i => (
+                  <Star key={i} size={22} className="text-yellow-500 fill-yellow-500" />
+                ))}
               </div>
+              <span className="text-sp-cream/40 text-sm">4.8</span>
+            </div>
 
-              <div className="bg-white/5 rounded-xl p-4 text-sm text-sp-cream/70 leading-relaxed">
-                Мы ценим мнение каждого гостя. Все отзывы публикуются на Яндекс.Картах — честные и неподдельные.
-              </div>
+            <p className="text-sp-cream/60 max-w-md mx-auto mb-8 leading-relaxed">
+              Мы благодарны каждому гостю за тёплые слова. 
+              Все отзывы публикуются на Яндекс.Картах — честные, живые и неподдельные.
+            </p>
 
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href={YANDEX_MAPS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-primary w-full flex items-center justify-center gap-2"
+                className="btn-primary text-base px-8 py-4 inline-flex items-center justify-center gap-2"
               >
-                <Star size={16} />
-                Все отзывы
+                <MessageCircle size={18} />
+                Читать все отзывы
+                <ChevronRight size={18} />
               </a>
-
               <a
                 href={YANDEX_MAPS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-secondary w-full flex items-center justify-center gap-2"
+                className="btn-secondary text-base px-8 py-4 inline-flex items-center justify-center gap-2"
               >
-                <MessageCircle size={16} />
+                <ExternalLink size={18} />
                 Оставить отзыв
               </a>
-
-              <a
-                href="https://yandex.ru/maps/org/sol_i_perets/172085958854/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 text-sp-cream/30 hover:text-sp-orange text-xs transition-colors pt-2 border-t border-white/5"
-              >
-                <ExternalLink size={12} />
-                Открыть на Яндекс.Картах
-              </a>
             </div>
-          </div>
+          </motion.div>
 
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="mt-8 text-center"
+          >
+            <a
+              href="https://yandex.ru/maps/org/sol_i_perets/172085958854/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sp-cream/30 hover:text-sp-orange text-sm transition-colors"
+            >
+              <ExternalLink size={14} />
+              Страница на Яндекс.Картах
+            </a>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="mt-16 grid md:grid-cols-3 gap-4 text-center"
+          >
+            {[
+              { icon: '⭐', title: '4.8', desc: 'Средняя оценка' },
+              { icon: '💬', title: '100+', desc: 'Отзывов на Яндекс.Картах' },
+              { icon: '🏆', title: 'Рекомендуют', desc: '95% гостей возвращаются' },
+            ].map((s, i) => (
+              <div key={i} className="bg-sp-dark rounded-2xl p-6 border border-white/5">
+                <div className="text-3xl mb-2">{s.icon}</div>
+                <div className="text-sp-cream font-bold text-xl">{s.title}</div>
+                <div className="text-sp-cream/40 text-sm">{s.desc}</div>
+              </div>
+            ))}
+          </motion.div>
         </div>
       </div>
     </div>

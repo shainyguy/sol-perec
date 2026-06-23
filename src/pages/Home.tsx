@@ -261,40 +261,41 @@ export default function Home() {
             <h2 className="section-title">Отзывы на Яндекс.Картах</h2>
             <Link to="/reviews" className="text-sp-orange hover:underline text-sm">Все отзывы →</Link>
           </div>
-          <div className="bg-white rounded-2xl overflow-hidden border border-white/10 shadow-xl" style={{ height: '400px', position: 'relative' }}>
-            <iframe
-              src="https://yandex.ru/maps-reviews-widget/172085958854?comments"
-              style={{ width: '100%', height: '100%', border: 0 }}
-              title="Отзывы на Яндекс.Картах"
-              loading="lazy"
-            />
-            <a
-              href="https://yandex.ru/maps/org/sol_i_perets/172085958854/reviews/"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                boxSizing: 'border-box', textDecoration: 'none', color: '#b3b3b3',
-                fontSize: '10px', fontFamily: 'YS Text, sans-serif',
-                padding: '0 20px', position: 'absolute', bottom: '8px',
-                width: '100%', textAlign: 'center', left: 0,
-                overflow: 'hidden', textOverflow: 'ellipsis',
-                display: 'block', maxHeight: '14px', whiteSpace: 'nowrap',
-              }}
-            >
-              Соль и Перец на карте Химок — Яндекс Карты
-            </a>
-          </div>
-          <div className="text-center mt-6">
-            <a
-              href="https://yandex.ru/maps/org/sol_i_perets/172085958854/reviews/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-secondary inline-flex items-center gap-2"
-            >
-              <MessageCircle size={16} />
-              Оставить отзыв на Яндекс.Картах
-            </a>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="bg-gradient-to-br from-sp-orange/10 to-sp-terracotta/5 border border-sp-orange/20 rounded-3xl p-8 md:p-10 text-center"
+          >
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <div className="flex gap-1">
+                {[1, 2, 3, 4, 5].map(i => (
+                  <Star key={i} size={20} className="text-yellow-500 fill-yellow-500" />
+                ))}
+              </div>
+              <span className="text-sp-cream/40">4.8</span>
+            </div>
+            <h3 className="font-display text-2xl md:text-3xl text-sp-cream font-bold mb-3">
+              Нас ценят гости
+            </h3>
+            <p className="text-sp-cream/60 max-w-lg mx-auto mb-6">
+              Более 100 отзывов на Яндекс.Картах с оценкой 4.8 — приходите и убедитесь сами!
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <a
+                href="https://yandex.ru/maps/org/sol_i_perets/172085958854/reviews/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary inline-flex items-center gap-2"
+              >
+                <MessageCircle size={16} />
+                Читать отзывы
+              </a>
+              <Link to="/reviews" className="btn-secondary inline-flex items-center gap-2">
+                Подробнее
+              </Link>
+            </div>
+          </motion.div>
         </div>
       </section>
 
