@@ -66,8 +66,7 @@ const FOOD_CATS_ADMIN = [
   'Напитки','Авторские чаи','Мороженое','Десерты',
 ];
 const BAR_CATS_ADMIN = [
-  'Коктейли','Вино','Шампанское','Пиво',
-  'Виски','Коньяк','Водка','Текила','Ром',
+  'Пиво','Сидр и Медовуха','Коктейли','Безалкогольное',
 ];
 // ALL_CATS used for reference only
 // const ALL_CATS = [...FOOD_CATS_ADMIN, ...BAR_CATS_ADMIN];

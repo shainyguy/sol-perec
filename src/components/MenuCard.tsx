@@ -47,9 +47,15 @@ export default function MenuCard({ item, compact, hideCart: _hideCart }: MenuCar
           <h4 className="text-sp-cream text-sm font-semibold leading-tight mb-1">{item.name}</h4>
           <div className="flex items-center justify-between mt-2">
             <span className="text-sp-orange font-bold">{item.price.toLocaleString('ru-RU')} ₽</span>
-            <button onClick={handleAdd} className="bg-sp-orange/20 hover:bg-sp-orange text-sp-orange hover:text-white rounded-full p-1.5 transition-all" aria-label={`Добавить ${item.name} в корзину`}>
-              <Plus size={14} />
-            </button>
+            {item.is_bar ? (
+              <span className={`text-[10px] font-bold border px-1.5 py-0.5 rounded ${item.category === 'Безалкогольное' ? 'text-sp-cream/40 border-white/10' : 'text-red-400 border-red-500/40'}`}>
+                {item.category === 'Безалкогольное' ? 'В зале' : '18+'}
+              </span>
+            ) : (
+              <button onClick={handleAdd} className="bg-sp-orange/20 hover:bg-sp-orange text-sp-orange hover:text-white rounded-full p-1.5 transition-all" aria-label={`Добавить ${item.name} в корзину`}>
+                <Plus size={14} />
+              </button>
+            )}
           </div>
         </div>
       </motion.div>
@@ -95,13 +101,17 @@ export default function MenuCard({ item, compact, hideCart: _hideCart }: MenuCar
             )}
             <span className="text-sp-orange font-bold text-lg">{item.price.toLocaleString('ru-RU')} ₽</span>
           </div>
-          <button
-            onClick={handleAdd}
-            className="btn-add"
-          >
-            <Plus size={16} />
-            В корзину
-          </button>
+          {item.is_bar ? (
+            <span className={`flex items-center gap-1.5 border text-xs font-bold px-3 py-1.5 rounded-lg ${item.category === 'Безалкогольное' ? 'text-sp-cream/40 border-white/10' : 'text-red-400 border-red-500/30'}`}>
+              {item.category !== 'Безалкогольное' && <span className="text-sm">🔞</span>}
+              {item.category === 'Безалкогольное' ? 'В зале' : '18+'}
+            </span>
+          ) : (
+            <button onClick={handleAdd} className="btn-add">
+              <Plus size={16} />
+              В корзину
+            </button>
+          )}
         </div>
       </div>
     </motion.div>

@@ -30,16 +30,11 @@ export const FOOD_CATS = [
 ];
 
 export const BAR_CATS = [
-  { id: 'all',        label: 'Всё' },
-  { id: 'Коктейли',   label: '🍹 Коктейли' },
-  { id: 'Вино',       label: '🍷 Вино' },
-  { id: 'Шампанское', label: '🥂 Шампанское' },
-  { id: 'Пиво',       label: '🍺 Пиво' },
-  { id: 'Виски',      label: '🥃 Виски' },
-  { id: 'Коньяк',     label: '🥃 Коньяк' },
-  { id: 'Водка',      label: '🍶 Водка' },
-  { id: 'Текила',     label: '🌵 Текила' },
-  { id: 'Ром',        label: '🏝️ Ром' },
+  { id: 'all',             label: 'Всё' },
+  { id: 'Пиво',            label: '🍺 Пиво' },
+  { id: 'Сидр и Медовуха', label: '🍏 Сидр и Медовуха' },
+  { id: 'Коктейли',        label: '🍹 Коктейли' },
+  { id: 'Безалкогольное',  label: '🚫 Безалкогольное' },
 ];
 
 export default function Menu() {
@@ -94,7 +89,9 @@ export default function Menu() {
     <div className="min-h-screen bg-sp-darkest pt-20">
       <Helmet>
         <title>{showBar ? 'Меню бара' : 'Меню'} — Соль и Перец | Сходня</title>
-        <meta name="description" content="Меню кафе Соль и Перец в Сходне. Шашлык, плов, садж, горячие блюда, салаты, напитки и десерты. Доставка и самовывоз." />
+        <meta name="description" content={showBar
+          ? 'Барное меню кафе Соль и Перец в Сходне. Пиво, сидр, коктейли, безалкогольные напитки. Чрезмерное употребление алкоголя вредит вашему здоровью.'
+          : 'Меню кафе Соль и Перец в Сходне. Шашлык, плов, садж, горячие блюда, салаты, напитки и десерты. Доставка и самовывоз.'} />
       </Helmet>
       <div className="bg-sp-dark py-12">
         <div className="container mx-auto px-4">
@@ -114,6 +111,21 @@ export default function Menu() {
             <button onClick={() => { setShowBar(false); }} className={`tab-btn ${!showBar ? 'tab-btn-active' : ''}`}>🍽 Кухня</button>
             <button onClick={() => { setShowBar(true); }} className={`tab-btn ${showBar ? 'tab-btn-active' : ''}`}>🍸 Бар</button>
           </div>
+
+          {showBar && (
+            <div className="mt-4 p-3 bg-red-900/20 border border-red-500/30 rounded-xl">
+              <p className="text-red-400 text-xs font-medium flex items-center gap-2">
+                <span className="text-base">🔞</span>
+                <span>
+                  <strong>18+</strong> Алкогольная продукция представлена исключительно для ознакомления.
+                  Не является публичной офертой. Продажа алкоголя дистанционным способом запрещена.
+                </span>
+              </p>
+              <p className="text-red-400/60 text-[10px] mt-1 ml-7">
+                Чрезмерное употребление алкоголя вредит вашему здоровью
+              </p>
+            </div>
+          )}
 
           {/* 🔗 Кнопка "Смотреть PDF меню" */}
           <div className="mt-5">
