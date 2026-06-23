@@ -76,7 +76,11 @@ app.get('/api/health', (_req, res) => res.json({
   db: process.env.DATABASE_URL ? '✅ connected' : '❌ DATABASE_URL missing',
 }));
 
-// ── Per-page meta for SEO (injected into static index.html) ──────────────────
+// ── React SPA ─────────────────────────────────────────────────────────────────
+const dist = path.join(__dirname, 'dist');
+app.use(express.static(dist, { maxAge: '1d' }));
+
+// Per-page meta injection for SEO (server-side, works without JS)
 const PAGE_META = {
   '/':        { title: 'Соль и Перец — Кафе в Сходне | Шашлык, Плов, Банкеты',
                 desc: 'Кафе Соль и Перец — вкусная домашняя кухня в Сходне. Шашлык, плов, гриль, банкеты. Доставка, бронирование столов. ул. Некрасова 15.' },
@@ -106,10 +110,6 @@ function injectMeta(req, res) {
     .replace(/<meta name="description"[^>]*\/>/, `<meta name="description" content="${route.desc}" />`);
   res.send(html);
 }
-
-// ── React SPA ─────────────────────────────────────────────────────────────────
-const dist = path.join(__dirname, 'dist');
-app.use(express.static(dist, { maxAge: '1d' }));
 app.get('*', injectMeta);
 
 // ── Start ─────────────────────────────────────────────────────────────────────
