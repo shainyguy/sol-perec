@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Search, User, ChefHat, Receipt, DivideCircle } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
 import { type MenuItem } from '../components/MenuCard';
+import { FOOD_CATS, BAR_CATS } from './Menu';
 
 interface OrderItem {
   name: string;
@@ -169,7 +170,12 @@ export default function QrMenu() {
       if (!groups[item.category]) groups[item.category] = [];
       groups[item.category].push(item);
     });
-    return Object.entries(groups).sort((a, b) => a[0].localeCompare(b[0])); // Сортировка по алфавиту
+    const catOrder = [...new Set([...FOOD_CATS, ...BAR_CATS].filter(c => c.id !== 'all').map(c => c.id)), ...Object.keys(groups)];
+    return Object.entries(groups).sort((a, b) => {
+      const ia = catOrder.indexOf(a[0]);
+      const ib = catOrder.indexOf(b[0]);
+      return (ia === -1 ? 999 : ia) - (ib === -1 ? 999 : ib);
+    });
   })();
 
   return (

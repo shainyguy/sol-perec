@@ -101,7 +101,7 @@ export default function Contacts() {
           >
             <div className="rounded-2xl overflow-hidden h-96 lg:h-full min-h-96 bg-sp-dark border border-white/10">
               <iframe
-                src="https://yandex.ru/map-widget/v1/?ll=37.392000%2C55.988000&z=16&pt=37.392000,55.988000,pm2rdm"
+                src="https://yandex.ru/map-widget/v1/org/sol_i_perets/172085958854/?ll=37.282959%2C55.944047&z=16"
                 width="100%"
                 height="100%"
                 frameBorder="0"
