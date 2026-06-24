@@ -20,25 +20,17 @@ interface TableOrder {
 
 function QrCard({ item }: { item: MenuItem }) {
   return (
-    <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col mb-3 last:mb-0">
-      <div className="flex p-3 gap-3">
-        {item.image_url && (
-          <img src={item.image_url} alt={item.name} className="w-20 h-20 object-cover rounded-lg flex-shrink-0 bg-gray-100" />
-        )}
-        <div className="flex-1 flex flex-col justify-between py-1">
-          <div>
-            <h3 className="font-semibold text-gray-900 text-base leading-tight mb-1">{item.name}</h3>
-            {item.description && (
-              <p className="text-gray-500 text-xs leading-relaxed line-clamp-2">{item.description}</p>
-            )}
-          </div>
-          <div className="flex items-center justify-between mt-2">
-            <span className="text-orange-600 font-bold text-lg">
-              {Number(item.price).toLocaleString('ru-RU')} ₽
-            </span>
-            {(item as any).weight && <span className="text-gray-400 text-xs">{(item as any).weight} г</span>}
-          </div>
+    <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 mb-3 last:mb-0">
+      <div className="p-4">
+        <div className="flex items-start justify-between gap-3 mb-1">
+          <h3 className="font-bold text-gray-900 text-base leading-tight">{item.name}</h3>
+          <span className="text-orange-600 font-bold text-lg whitespace-nowrap">
+            {Number(item.price).toLocaleString('ru-RU')} ₽
+          </span>
         </div>
+        {item.description && (
+          <p className="text-gray-500 text-xs leading-relaxed mt-1">{item.description}</p>
+        )}
       </div>
     </div>
   );

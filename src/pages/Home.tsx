@@ -174,10 +174,12 @@ export default function Home() {
                     <span className="bg-red-500 text-white text-sm px-3 py-1 rounded-full font-bold">-{Math.round((1 - special.price / special.original_price) * 100)}%</span>
                   )}
                 </div>
-                <button onClick={() => cartStore.add({ id: special.id, name: special.name, price: special.price, image_url: special.image_url })} className="btn-primary text-base px-8">В корзину</button>
+                <button onClick={() => cartStore.add({ id: special.id, name: special.name, price: special.price, image_url: '' })} className="btn-primary text-base px-8">В корзину</button>
               </div>
-              <div className="w-full md:w-80 lg:w-96 flex-shrink-0">
-                <motion.img whileHover={{ scale: 1.03 }} transition={{ duration: 0.4 }} src={special.image_url || '/images/dish-plov.jpg'} alt={special.name} className="w-full h-64 md:h-80 object-cover rounded-2xl shadow-2xl" />
+              <div className="hidden md:flex w-80 lg:w-96 flex-shrink-0 items-center justify-center">
+                <div className="w-48 h-48 rounded-full bg-sp-orange/10 border-4 border-sp-orange/20 flex items-center justify-center">
+                  <span className="text-7xl">🍽️</span>
+                </div>
               </div>
             </motion.div>
           </div>
