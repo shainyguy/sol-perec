@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
-import { Star, Clock, Users, Flame, MapPin, Phone, Shield, Trophy, Sparkles, ChefHat, Wine, Music, Camera, Heart, ArrowRight, CheckCircle2, ShoppingBag, Bike, Zap, Gift, Quote } from 'lucide-react';
+import { Star, Clock, Users, Flame, MapPin, Phone, Shield, Trophy, Sparkles, ChefHat, Wine, Music, Camera, Heart, ArrowRight, CheckCircle2, ShoppingBag, Bike, Zap, Gift } from 'lucide-react';
 import MenuCard, { type MenuItem } from '../components/MenuCard';
 import { getGallery, getReviews } from '../lib/db';
 
-interface Review { id: number; author_name: string; rating: number; text: string; created_at: string; }
+interface Review { id: number; author_name: string; rating: number; text: string; approved: boolean; created_at: string; }
 interface GalleryItem { id: number; url: string; caption: string; category: string; }
 
 const FEATURED_DISHES: MenuItem[] = [
@@ -33,29 +33,6 @@ const GALLERY_FALLBACK = [
   { id: 5, url: '/images/gallery-5.jpg', caption: 'Банкетный зал', category: 'interior' },
   { id: 6, url: '/images/gallery-6.jpg', caption: 'Наши блюда', category: 'food' },
 ];
-
-function Countdown({ target }: { target?: string }) {
-  const [t, setT] = useState({ d: 7, h: 0, m: 0 });
-  const end = target && !isNaN(new Date(target).getTime()) ? new Date(target).getTime() : Date.now() + 7 * 86400000;
-  useEffect(() => {
-    const tick = () => {
-      const diff = Math.max(0, end - Date.now());
-      setT({ d: Math.floor(diff / 86400000), h: Math.floor(diff / 3600000) % 24, m: Math.floor(diff / 60000) % 60 });
-    };
-    tick(); const id = setInterval(tick, 60000);
-    return () => clearInterval(id);
-  }, [end]);
-  return (
-    <div className="flex gap-2 justify-center">
-      {[['д', t.d], ['ч', t.h], ['м', t.m]].map(([l, v]) => (
-        <div key={l as string} className="flex flex-col items-center">
-          <div className="bg-black/30 backdrop-blur rounded-lg px-2 py-1 font-mono font-bold text-sp-orange text-base min-w-[32px] text-center">{String(v).padStart(2, '0')}</div>
-          <span className="text-white/40 text-[10px] mt-0.5">{l}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
 
 function FloatingOrbs() {
   return (
