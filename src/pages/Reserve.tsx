@@ -142,7 +142,7 @@ export default function Reserve() {
           )}
           <div className="flex gap-3 justify-center">
             <button onClick={reset} className="btn-primary">Забронировать ещё</button>
-            <a href="tel:+79257677778" className="btn-secondary">Позвонить</a>
+            <a href="tel:+79055471640" className="btn-secondary">Позвонить</a>
           </div>
         </motion.div>
       </div>

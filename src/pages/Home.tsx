@@ -305,7 +305,7 @@ export default function Home() {
             <div className="flex flex-col gap-4">
               {[
                 { icon: <MapPin size={20} />, title: 'Адрес', text: 'Московская обл., Химки, ул. Некрасова 15', sub: 'Рядом МЦД Сходня' },
-                { icon: <Phone size={20} />, title: 'Телефон', text: '+7 (925) 767-77-78', sub: 'Звонки и WhatsApp' },
+                { icon: <Phone size={20} />, title: 'Телефон', text: '+7 (905) 547-16-40', sub: 'Звонки и WhatsApp' },
                 { icon: <Clock size={20} />, title: 'Часы работы', text: 'Пн–Пт: 09:00 – 01:00', sub: 'Сб–Вс: 09:00 – 05:00' },
               ].map((c, i) => (
                 <motion.div key={i} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="contact-card">
@@ -313,7 +313,7 @@ export default function Home() {
                   <div><div className="text-sp-cream/40 text-xs mb-0.5">{c.title}</div><div className="text-sp-cream font-semibold">{c.text}</div><div className="text-sp-cream/40 text-sm">{c.sub}</div></div>
                 </motion.div>
               ))}
-              <a href="tel:+79257677778" className="btn-primary flex items-center justify-center gap-2 mt-2"><Phone size={16} />Позвонить</a>
+              <a href="tel:+79055471640" className="btn-primary flex items-center justify-center gap-2 mt-2"><Phone size={16} />Позвонить</a>
             </div>
             <div className="rounded-2xl overflow-hidden border border-white/8 h-80">
               <iframe src="https://yandex.ru/map-widget/v1/org/sol_i_perets/172085958854/?ll=37.282959%2C55.944047&z=16" width="100%" height="100%" frameBorder="0" title="Карта" />
@@ -331,7 +331,7 @@ export default function Home() {
           <p className="text-white/80 text-lg mb-8">Дни рождения, корпоративы, свадьбы — мы организуем любое мероприятие</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/banquet" className="bg-white text-sp-orange font-bold px-10 py-4 rounded-full hover:bg-sp-cream transition-all text-base">Узнать подробнее</Link>
-            <a href="tel:+79257677778" className="border-2 border-white text-white font-bold px-10 py-4 rounded-full hover:bg-white/15 transition-all text-base">Позвонить нам</a>
+            <a href="tel:+79055471640" className="border-2 border-white text-white font-bold px-10 py-4 rounded-full hover:bg-white/15 transition-all text-base">Позвонить нам</a>
           </div>
         </motion.div>
       </section>

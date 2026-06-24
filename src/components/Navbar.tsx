@@ -61,9 +61,9 @@ export default function Navbar({ onCartOpen }: NavbarProps) {
 
         {/* Actions */}
         <div className="flex items-center gap-3">
-          <a href="tel:+79257677778" className="hidden md:flex items-center gap-2 text-sp-cream hover:text-sp-orange transition-colors text-sm font-medium">
+          <a href="tel:+79055471640" className="hidden md:flex items-center gap-2 text-sp-cream hover:text-sp-orange transition-colors text-sm font-medium">
             <Phone size={15} />
-            +7 (925) 767-77-78
+            +7 (905) 547-16-40
           </a>
           <button
             onClick={onCartOpen}
@@ -95,8 +95,8 @@ export default function Navbar({ onCartOpen }: NavbarProps) {
               className="mobile-nav-link"
             >{l.label}</Link>
           ))}
-          <a href="tel:+79257677778" className="mobile-nav-link flex items-center gap-2">
-            <Phone size={16} /> +7 (925) 767-77-78
+          <a href="tel:+79055471640" className="mobile-nav-link flex items-center gap-2">
+            <Phone size={16} /> +7 (905) 547-16-40
           </a>
         </div>
       )}

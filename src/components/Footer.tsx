@@ -15,8 +15,8 @@ export default function Footer() {
             <p className="text-sp-cream/50 text-sm leading-relaxed mb-4">
               Домашняя кухня и уютная атмосфера в самом сердце Сходни.
             </p>
-            <a href="tel:+79257677778" className="inline-flex items-center gap-2 text-sp-orange text-sm font-medium hover:underline transition-colors">
-              <Phone size={14} /> +7 (925) 767-77-78
+            <a href="tel:+79055471640" className="inline-flex items-center gap-2 text-sp-orange text-sm font-medium hover:underline transition-colors">
+              <Phone size={14} /> +7 (905) 547-16-40
             </a>
           </div>
 
@@ -47,9 +47,9 @@ export default function Footer() {
           <div>
             <h4 className="text-sp-cream font-semibold mb-3 text-sm uppercase tracking-wider">Контакты</h4>
             <div className="flex flex-col gap-3">
-              <a href="tel:+79257677778" className="flex items-start gap-2 text-sp-cream/60 hover:text-sp-orange transition-colors text-sm group">
+              <a href="tel:+79055471640" className="flex items-start gap-2 text-sp-cream/60 hover:text-sp-orange transition-colors text-sm group">
                 <Phone size={14} className="mt-0.5 flex-shrink-0 group-hover:text-sp-orange transition-colors" />
-                <span>+7 (925) 767-77-78</span>
+                <span>+7 (905) 547-16-40</span>
               </a>
               
               <a href="mailto:fine.ehtibar@yandex.ru" className="flex items-start gap-2 text-sp-cream/60 hover:text-sp-orange transition-colors text-sm group">

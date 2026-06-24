@@ -7,7 +7,7 @@ export default function Terms() {
   const inn = "502413316035";
   const ogrnip = "326774600287612";
   const address = "Московская обл., г. Химки, ул. Некрасова, д. 15";
-  const phone = "+7 (925) 767-77-78";
+  const phone = "+7 (905) 547-16-40";
   const email = "fine.ehtibar@yandex.ru";
 
   return (
