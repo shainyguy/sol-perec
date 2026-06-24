@@ -177,17 +177,19 @@ export default function Home() {
       {/* ════════════════════ HERO ════════════════════ */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <motion.div style={{ scale: heroScale }} className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-b from-sp-darkest/70 via-sp-darkest/50 to-sp-darkest" />
-          <div className="absolute inset-0 bg-gradient-to-r from-orange-900/20 via-transparent to-amber-900/10" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-sp-darkest to-sp-darkest" />
+          <div className="absolute inset-0 bg-gradient-to-r from-orange-900/30 via-transparent to-amber-900/20" />
+          <div className="absolute inset-0 opacity-20"
+            style={{ backgroundImage: 'url(/images/hero-bg.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', filter: 'blur(2px)' }} />
           <motion.div
-            className="absolute inset-0 opacity-30"
+            className="absolute inset-0"
             style={{
-              background: 'radial-gradient(ellipse at 30% 50%, rgba(232,98,26,0.3) 0%, transparent 60%), radial-gradient(ellipse at 70% 20%, rgba(255,200,100,0.15) 0%, transparent 50%)',
+              background: 'radial-gradient(ellipse at 30% 40%, rgba(232,98,26,0.25) 0%, transparent 55%), radial-gradient(ellipse at 70% 60%, rgba(255,200,100,0.12) 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, rgba(200,80,20,0.08) 0%, transparent 40%)',
             }}
-            animate={{ opacity: [0.2, 0.4, 0.2] }}
-            transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+            animate={{ opacity: [0.6, 1, 0.6] }}
+            transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
           />
-          <div className="absolute inset-0" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23E8621A\' fill-opacity=\'0.03\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")', opacity: 0.5 }} />
+          <div className="absolute inset-0" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23E8621A\' fill-opacity=\'0.04\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")', opacity: 0.6 }} />
         </motion.div>
 
         <FloatingOrbs />
@@ -342,6 +344,7 @@ export default function Home() {
             </div>
           </RevealSection>
 
+          {featured.length > 0 ? (
           <StaggerChildren className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {featured.map((item) => (
               <motion.div key={item.id} variants={staggerItem}>
@@ -349,6 +352,20 @@ export default function Home() {
               </motion.div>
             ))}
           </StaggerChildren>
+          ) : (
+          <div className="text-center py-12">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-6 text-center">
+                  <div className="text-3xl mb-3">🍽️</div>
+                  <div className="h-4 bg-white/10 rounded w-3/4 mx-auto mb-2 animate-pulse" />
+                  <div className="h-3 bg-white/5 rounded w-1/2 mx-auto animate-pulse" />
+                </div>
+              ))}
+            </div>
+            <p className="text-sp-cream/30 text-sm mt-6">Меню загружается. Загляните позже!</p>
+          </div>
+          )}
 
           <RevealSection delay={0.3}>
             <div className="text-center mt-12">
