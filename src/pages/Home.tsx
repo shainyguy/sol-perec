@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import {
   Star, Clock, Flame, MapPin, Phone, Shield, Trophy,
   Sparkles, ChefHat, Wine, Music, Camera, ArrowRight, Heart,
-  ShoppingBag, Bike, Zap, Gift, Users, CheckCircle2,
+  ShoppingBag, Bike, Zap, Gift, Users,
 } from 'lucide-react';
 import MenuCard, { type MenuItem } from '../components/MenuCard';
 import { getGallery, getReviews, getPromotions } from '../lib/db';
