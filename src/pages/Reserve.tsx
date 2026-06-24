@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
-
-import { Calendar, User, MapPin, Clock, Info } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Calendar, User, MapPin, Clock, Info, Phone, Shield, CheckCircle } from 'lucide-react';
 import FloorPlan from '../components/FloorPlan';
 import { formatPhone, isValidPhone } from '../lib/phone';
 
@@ -20,24 +19,29 @@ const TIMES = [
   '17:00','18:00','19:00','20:00','21:00','22:00','23:00','00:00',
 ];
 
+const TRUST_SIGNALS = [
+  { icon: CheckCircle, text: 'Подтверждаем в течение 15 минут' },
+  { icon: Shield,       text: 'Бесплатная отмена за 2 часа' },
+  { icon: Phone,        text: 'Или позвоните: +7 (905) 547-16-40' },
+];
+
 export default function Reserve() {
   const [showFloorPlan, setShowFloorPlan] = useState(false);
-  const [selectedTable, setSelectedTable] = useState<number | null>(null);
-  const [date, setDate] = useState('');
-  const [time, setTime] = useState('');
-  const [form, setForm] = useState({ name: '', phone: '', guests: '2' });
+  const [selectedTable, setSelectedTable]   = useState<number | null>(null);
+  const [date, setDate]                     = useState('');
+  const [time, setTime]                     = useState('');
+  const [form, setForm]                     = useState({ name: '', phone: '', guests: '2' });
   const [dayReservations, setDayReservations] = useState<Reservation[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState('');
+  const [loading, setLoading]               = useState(false);
+  const [success, setSuccess]               = useState(false);
+  const [error, setError]                   = useState('');
 
   const today = new Date().toISOString().split('T')[0];
 
-  // Load ALL reservations for the selected date (regardless of time)
   const loadDay = useCallback(async (d: string) => {
     if (!d) return;
     try {
-      const res = await fetch(`/api/reservations?date=${d}`);
+      const res  = await fetch(`/api/reservations?date=${d}`);
       const data = await res.json();
       setDayReservations(
         Array.isArray(data)
@@ -52,13 +56,11 @@ export default function Reserve() {
     else setDayReservations([]);
   }, [date, loadDay]);
 
-  // Tables booked at the EXACT selected time slot (exclude nulls)
   const bookedAtTime: number[] = (time
     ? dayReservations.filter(r => r.time === time && r.table_number !== null)
     : []
   ).map(r => r.table_number as number);
 
-  // All tables with ANY booking today (exclude nulls)
   const bookedAnyTime: number[] = [...new Set(
     dayReservations
       .filter(r => r.table_number !== null)
@@ -120,35 +122,48 @@ export default function Reserve() {
     setDayReservations([]);
   };
 
+  // ── Success screen ─────────────────────────────────────────────────────────
   if (success) {
     return (
       <div className="min-h-screen bg-sp-darkest pt-20 flex items-center justify-center">
         <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
+          initial={{ scale: 0.85, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="text-center p-12 max-w-md"
+          transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+          className="text-center p-10 max-w-md w-full"
         >
           <motion.div
-            animate={{ rotate: [0, 10, -10, 0] }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-            className="text-7xl mb-6"
+            animate={{ rotate: [0, 12, -8, 5, 0] }}
+            transition={{ delay: 0.25, duration: 0.6 }}
+            className="text-7xl mb-6 select-none"
           >🎉</motion.div>
-          <h2 className="font-display text-3xl text-sp-orange mb-3">Стол забронирован!</h2>
-          <p className="text-sp-cream/60 mb-2">Мы подтвердим бронь по телефону в ближайшее время.</p>
+          <h2 className="font-display text-3xl text-sp-orange font-bold mb-3">Стол забронирован!</h2>
+          <p className="text-sp-cream/60 mb-2 leading-relaxed">
+            Мы позвоним для подтверждения<br />в течение <span className="text-sp-cream/80 font-medium">15 минут</span>.
+          </p>
           {selectedTable && (
-            <p className="text-sp-cream/40 text-sm mb-6">
+            <div className="inline-flex items-center gap-2 mt-2 mb-6 bg-white/5 border border-white/10 px-4 py-2 rounded-full text-sp-cream/50 text-sm">
+              <MapPin size={13} className="text-sp-orange" />
               Стол №{selectedTable} · {date} · {time}
-            </p>
+            </div>
           )}
-          <div className="flex gap-3 justify-center">
+          {!selectedTable && (
+            <div className="mb-6 text-sp-cream/35 text-sm">
+              {date} · {time}
+            </div>
+          )}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <button onClick={reset} className="btn-primary">Забронировать ещё</button>
-            <a href="tel:+79055471640" className="btn-secondary">Позвонить</a>
+            <a href="tel:+79055471640" className="btn-secondary inline-flex items-center justify-center gap-2">
+              <Phone size={15} />Позвонить
+            </a>
           </div>
         </motion.div>
       </div>
     );
   }
 
+  // ── Main page ──────────────────────────────────────────────────────────────
   return (
     <>
       <FloorPlan
@@ -162,27 +177,62 @@ export default function Reserve() {
         time={time}
       />
 
-      <div className="min-h-screen bg-sp-darkest pt-20">
+      <div className="min-h-screen bg-sp-darkest">
         <title>Бронирование стола — Соль и Перец | Сходня</title>
-        <meta name="description" content="Забронируйте стол в кафе Соль и Перец в Сходне. Выберите место на схеме зала, укажите дату и время. Банкеты и мероприятия." />
-        <div className="bg-sp-dark py-12">
-          <div className="container mx-auto px-4">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <h1 className="font-display text-4xl md:text-5xl text-sp-cream font-bold mb-2">
+        <meta
+          name="description"
+          content="Забронируйте стол в кафе Соль и Перец в Сходне. Выберите место на схеме зала, укажите дату и время. Подтверждение за 15 минут. Бесплатная отмена за 2 часа."
+        />
+
+        {/* ══ HERO ════════════════════════════════════════════════════════════ */}
+        <div className="relative pt-20 overflow-hidden bg-sp-dark">
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: 'url(/images/banquet.jpg)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center 30%',
+              opacity: 0.12,
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-sp-dark/40 via-sp-dark to-sp-darkest" />
+
+          <div className="relative container mx-auto px-4 py-10 md:py-14">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55 }}>
+              <h1 className="font-display text-4xl md:text-5xl text-sp-cream font-bold mb-2 leading-tight">
                 Бронирование стола
               </h1>
-              <p className="text-sp-cream/50">Выберите удобное место и забронируйте онлайн</p>
+              <p className="text-sp-cream/50 mb-6 text-sm md:text-base">
+                Выберите удобное место и дату — подтвердим за 15 минут
+              </p>
+
+              {/* Trust signals strip */}
+              <div className="flex flex-wrap gap-3">
+                {TRUST_SIGNALS.map(({ icon: Icon, text }) => (
+                  <div key={text} className="flex items-center gap-2 text-xs text-sp-cream/50 bg-white/5 border border-white/8 px-3 py-1.5 rounded-full">
+                    <Icon size={11} className="text-sp-orange flex-shrink-0" />
+                    {text}
+                  </div>
+                ))}
+              </div>
             </motion.div>
           </div>
         </div>
 
-        <div className="container mx-auto px-4 py-10 max-w-2xl">
-          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+        {/* ══ FORM ════════════════════════════════════════════════════════════ */}
+        <div className="container mx-auto px-4 py-8 max-w-2xl">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
 
-            {/* Date & Time */}
-            <div className="bg-sp-dark rounded-2xl p-6 border border-white/5">
+            {/* Step 1 — Date & Time */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.05 }}
+              className="bg-sp-dark rounded-2xl p-6 border border-white/5"
+            >
               <h2 className="text-sp-cream font-semibold mb-5 flex items-center gap-2">
-                <Calendar size={18} className="text-sp-orange" />Дата и время
+                <Calendar size={17} className="text-sp-orange" />
+                Дата и время
               </h2>
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -191,10 +241,7 @@ export default function Reserve() {
                     type="date"
                     min={today}
                     value={date}
-                    onChange={e => {
-                      setDate(e.target.value);
-                      setSelectedTable(null);
-                    }}
+                    onChange={e => { setDate(e.target.value); setSelectedTable(null); }}
                     className="form-input"
                     required
                   />
@@ -203,42 +250,49 @@ export default function Reserve() {
                   <label className="form-label">Время *</label>
                   <select
                     value={time}
-                    onChange={e => {
-                      setTime(e.target.value);
-                      setSelectedTable(null);
-                    }}
+                    onChange={e => { setTime(e.target.value); setSelectedTable(null); }}
                     className="form-input"
                     required
                   >
                     <option value="">Выберите...</option>
-                    {TIMES.map(t => (
-                      <option key={t} value={t}>{t}</option>
-                    ))}
+                    {TIMES.map(t => <option key={t} value={t}>{t}</option>)}
                   </select>
                 </div>
               </div>
 
-              {/* Info about day bookings */}
-              {date && dayReservations.length > 0 && (
-                <div className="mt-4 flex items-start gap-2 bg-sp-orange/8 border border-sp-orange/15 rounded-xl px-3 py-2.5 text-sm">
-                  <Info size={14} className="text-sp-orange mt-0.5 flex-shrink-0" />
-                  <span className="text-sp-cream/60">
-                    На {new Date(date + 'T12:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' })}{' '}
-                    уже <span className="text-sp-orange font-medium">
-                      {dayReservations.length} {dayReservations.length === 1 ? 'бронь' : dayReservations.length < 5 ? 'брони' : 'броней'}
-                    </span>.
-                    {time && bookedAtTime.length > 0 && (
-                      <> В {time} занято: <span className="text-red-400">столы {bookedAtTime.join(', ')}</span>.</>
-                    )}
-                  </span>
-                </div>
-              )}
-            </div>
+              <AnimatePresence>
+                {date && dayReservations.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="mt-4 flex items-start gap-2 bg-sp-orange/8 border border-sp-orange/15 rounded-xl px-3 py-2.5 text-sm overflow-hidden"
+                  >
+                    <Info size={13} className="text-sp-orange mt-0.5 flex-shrink-0" />
+                    <span className="text-sp-cream/60">
+                      На {new Date(date + 'T12:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' })}{' '}
+                      уже <span className="text-sp-orange font-medium">
+                        {dayReservations.length} {dayReservations.length === 1 ? 'бронь' : dayReservations.length < 5 ? 'брони' : 'броней'}
+                      </span>.
+                      {time && bookedAtTime.length > 0 && (
+                        <> В {time}: <span className="text-red-400">столы {bookedAtTime.join(', ')}</span> заняты.</>
+                      )}
+                    </span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
 
-            {/* Table selection */}
-            <div className="bg-sp-dark rounded-2xl p-6 border border-white/5">
+            {/* Step 2 — Table selection */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="bg-sp-dark rounded-2xl p-6 border border-white/5"
+            >
               <h2 className="text-sp-cream font-semibold mb-4 flex items-center gap-2">
-                <MapPin size={18} className="text-sp-orange" />Выбор стола
+                <MapPin size={17} className="text-sp-orange" />
+                Выбор стола
               </h2>
 
               <div className="flex items-center gap-3 flex-wrap">
@@ -260,10 +314,9 @@ export default function Reserve() {
                 )}
               </div>
 
-              {/* Legend */}
               <div className="flex flex-wrap gap-4 mt-4 text-xs text-sp-cream/40">
                 <span className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded bg-[#2D2D2D] inline-block" />Свободен
+                  <span className="w-3 h-3 rounded bg-[#2D2D2D] inline-block border border-white/10" />Свободен
                 </span>
                 {bookedAnyTime.length > 0 && (
                   <span className="flex items-center gap-1.5">
@@ -271,34 +324,47 @@ export default function Reserve() {
                   </span>
                 )}
                 <span className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded bg-green-500 inline-block" />Выбран
+                  <span className="w-3 h-3 rounded bg-green-500 inline-block" />Выбран вами
                 </span>
               </div>
 
-              {selectedTable && (
-                <div className={`mt-3 rounded-xl px-4 py-2.5 text-sm flex items-center gap-2 border ${
-                  bookedAtTime.includes(selectedTable)
-                    ? 'bg-red-500/10 border-red-500/20 text-red-400'
-                    : 'bg-green-500/10 border-green-500/20 text-green-400'
-                }`}>
-                  {bookedAtTime.includes(selectedTable)
-                    ? `⚠️ Стол №${selectedTable} занят в ${time} — выберите другое время или стол`
-                    : `✅ Выбран стол №${selectedTable}`
-                  }
-                </div>
-              )}
+              <AnimatePresence>
+                {selectedTable && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    className={`mt-3 rounded-xl px-4 py-2.5 text-sm flex items-center gap-2 border ${
+                      bookedAtTime.includes(selectedTable)
+                        ? 'bg-red-500/10 border-red-500/20 text-red-400'
+                        : 'bg-green-500/10 border-green-500/20 text-green-400'
+                    }`}
+                  >
+                    {bookedAtTime.includes(selectedTable)
+                      ? `⚠️ Стол №${selectedTable} занят в ${time} — выберите другое время или стол`
+                      : `✅ Выбран стол №${selectedTable}`
+                    }
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               {!selectedTable && (
                 <p className="text-sp-cream/30 text-xs mt-2">
-                  Необязательно — если не выберете, мы подберём лучший стол
+                  Необязательно — если не выберете, мы подберём лучшее место
                 </p>
               )}
-            </div>
+            </motion.div>
 
-            {/* Guest info */}
-            <div className="bg-sp-dark rounded-2xl p-6 border border-white/5">
+            {/* Step 3 — Guest info */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+              className="bg-sp-dark rounded-2xl p-6 border border-white/5"
+            >
               <h2 className="text-sp-cream font-semibold mb-5 flex items-center gap-2">
-                <User size={18} className="text-sp-orange" />Ваши данные
+                <User size={17} className="text-sp-orange" />
+                Ваши данные
               </h2>
               <div className="flex flex-col gap-4">
                 <div>
@@ -309,6 +375,7 @@ export default function Reserve() {
                     value={form.name}
                     onChange={e => setForm(v => ({ ...v, name: e.target.value }))}
                     className="form-input"
+                    autoComplete="name"
                     required
                   />
                 </div>
@@ -320,6 +387,8 @@ export default function Reserve() {
                     value={form.phone}
                     onChange={e => setForm(v => ({ ...v, phone: formatPhone(e.target.value) }))}
                     className="form-input"
+                    autoComplete="tel"
+                    inputMode="tel"
                     required
                   />
                 </div>
@@ -338,13 +407,13 @@ export default function Reserve() {
                   </select>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
-            {/* Booked slots for the day */}
+            {/* Occupied slots */}
             {date && dayReservations.length > 0 && (
               <div className="bg-sp-dark rounded-2xl p-5 border border-white/5">
                 <h3 className="text-sp-cream/60 text-sm font-medium mb-3 flex items-center gap-2">
-                  <Clock size={14} className="text-sp-orange" />
+                  <Clock size={13} className="text-sp-orange" />
                   Занятые столы на {new Date(date + 'T12:00').toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' })}
                 </h3>
                 <div className="grid grid-cols-2 gap-1.5">
@@ -358,19 +427,38 @@ export default function Reserve() {
               </div>
             )}
 
-            {error && (
-              <div className="bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3 text-red-400 text-sm">
-                {error}
-              </div>
-            )}
+            {/* Error */}
+            <AnimatePresence>
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3 text-red-400 text-sm"
+                >
+                  {error}
+                </motion.div>
+              )}
+            </AnimatePresence>
 
-            <button type="submit" disabled={loading} className="btn-primary text-base py-4">
-              {loading ? 'Отправляем...' : '🗓️ Забронировать стол'}
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn-primary text-base py-4 relative overflow-hidden"
+            >
+              {loading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <motion.span animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 0.8, ease: 'linear' }} className="inline-block">⏳</motion.span>
+                  Отправляем...
+                </span>
+              ) : '🗓️ Забронировать стол'}
             </button>
 
             <p className="text-sp-cream/30 text-xs text-center">
               Нажимая кнопку, вы соглашаетесь с{' '}
-              <a href="/privacy" className="underline">политикой конфиденциальности</a>
+              <a href="/privacy" className="underline hover:text-sp-cream/50 transition-colors">
+                политикой конфиденциальности
+              </a>
             </p>
           </form>
         </div>

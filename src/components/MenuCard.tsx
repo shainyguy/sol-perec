@@ -28,31 +28,30 @@ interface MenuCardProps {
 
 function SetCard({ item, onAdd }: { item: MenuItem; onAdd: () => void }) {
   return (
-    <motion.div whileHover={{ y: -4 }} className="menu-card group relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-amber-500/8 via-transparent to-sp-orange/5 pointer-events-none" />
-      <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-amber-500 to-sp-orange" />
-      <div className="px-5 pt-5 pb-4 relative z-10">
-        <div className="flex items-center gap-2 mb-3">
-          <span className="bg-gradient-to-r from-amber-500 to-sp-orange text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Выгодный сет</span>
-          {item.is_special && <Star size={14} className="text-amber-400 fill-amber-400" />}
+    <motion.div whileHover={{ y: -3 }} className="menu-card group relative overflow-hidden flex flex-col h-full">
+      <div className="h-1 bg-gradient-to-r from-amber-500 to-sp-orange" />
+      <div className="absolute top-0 left-0 w-0.5 h-full bg-gradient-to-b from-amber-500 to-sp-orange opacity-30" />
+      <div className="flex flex-col h-full p-4 relative">
+        <div className="flex items-center gap-2 mb-2">
+          <span className="bg-gradient-to-r from-amber-500 to-sp-orange text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
+            Выгодный сет
+          </span>
+          {item.is_special && <Star size={12} className="text-amber-400 fill-amber-400" />}
         </div>
-        <div className="flex items-start justify-between gap-3 mb-3">
-          <h3 className="text-sp-cream font-bold text-xl leading-tight flex-1">{item.name}</h3>
-          <div className="text-right flex-shrink-0">
-            {item.original_price && item.original_price > item.price && (
-              <div className="text-sp-cream/30 text-xs line-through">{item.original_price.toLocaleString('ru-RU')} ₽</div>
-            )}
-            <div className="text-amber-400 font-bold text-3xl tracking-tight">{item.price.toLocaleString('ru-RU')} ₽</div>
-          </div>
-        </div>
+        <h3 className="text-sp-cream font-bold text-base leading-snug mb-2">{item.name}</h3>
         {item.description && (
-          <p className="text-sp-cream/60 text-sm leading-relaxed mb-4">{item.description}</p>
+          <p className="text-sp-cream/55 text-xs leading-relaxed mb-3 line-clamp-3 flex-grow">{item.description}</p>
         )}
-        <div className="flex items-center justify-between pt-3 border-t border-amber-500/15">
-          <span className="text-amber-400/60 text-xs italic">На 2-3 персоны</span>
-          <button onClick={onAdd} className="btn-add bg-gradient-to-r from-amber-600 to-sp-orange border-0 text-white shadow-lg shadow-sp-orange/20 hover:shadow-sp-orange/30">
-            <Plus size={16} />
-            В корзину
+        <div className="mt-auto pt-3 border-t border-amber-500/15 flex items-center justify-between gap-2">
+          <div>
+            {item.original_price && item.original_price > item.price && (
+              <div className="text-sp-cream/30 text-[10px] line-through leading-none">{item.original_price.toLocaleString('ru-RU')} ₽</div>
+            )}
+            <div className="text-amber-400 font-bold text-xl leading-tight">{item.price.toLocaleString('ru-RU')} ₽</div>
+            <div className="text-amber-400/50 text-[10px]">на 2–3 персоны</div>
+          </div>
+          <button onClick={onAdd} className="btn-add bg-gradient-to-r from-amber-600 to-sp-orange border-0 text-white shadow-lg shadow-sp-orange/20 flex-shrink-0">
+            <Plus size={14} />В корзину
           </button>
         </div>
       </div>
@@ -65,22 +64,21 @@ export default function MenuCard({ item, compact, hideCart: _hideCart }: MenuCar
     cartStore.add({ id: item.id, name: item.name, price: item.price, image_url: '' });
   };
 
-  if (item.category === 'Сеты') {
-    return <SetCard item={item} onAdd={handleAdd} />;
-  }
+  if (item.category === 'Сеты') return <SetCard item={item} onAdd={handleAdd} />;
 
+  // ── Compact (sidebar / quick list) ────────────────────────────────────────
   if (compact) {
     return (
-      <motion.div whileHover={{ y: -2 }} className="bg-sp-dark/80 rounded-xl border border-white/5 overflow-hidden group">
+      <motion.div whileHover={{ y: -1 }} className="bg-sp-dark/80 rounded-xl border border-white/5 overflow-hidden group">
         <div className="p-3">
           <div className="flex items-start justify-between gap-2">
-            <h4 className="text-sp-cream text-sm font-semibold leading-tight flex-1">{item.name}</h4>
-            <span className="text-sp-orange font-bold whitespace-nowrap">{item.price.toLocaleString('ru-RU')} ₽</span>
+            <h4 className="text-sp-cream text-sm font-semibold leading-tight flex-1 min-w-0">{item.name}</h4>
+            <span className="text-sp-orange font-bold text-sm whitespace-nowrap flex-shrink-0">{item.price.toLocaleString('ru-RU')} ₽</span>
           </div>
           {item.description && <p className="text-sp-cream/40 text-xs mt-1 line-clamp-1">{item.description}</p>}
           <div className="flex items-center justify-between mt-2">
-            <div className="flex gap-1">
-              {item.is_special && <Star size={10} className="text-sp-orange" />}
+            <div className="flex gap-1 items-center">
+              {item.is_special && <Star size={10} className="text-sp-orange fill-sp-orange" />}
               {item.is_gluten_free && <span className="text-[10px] text-green-400/60">БГ</span>}
               {item.is_lactose_free && <span className="text-[10px] text-blue-400/60">БЛ</span>}
             </div>
@@ -99,53 +97,98 @@ export default function MenuCard({ item, compact, hideCart: _hideCart }: MenuCar
     );
   }
 
+  // ── Standard card — FIX: price is BELOW name, not next to it ─────────────
+  const discount = item.original_price && item.original_price > item.price
+    ? Math.round((1 - item.price / item.original_price) * 100)
+    : 0;
+
   return (
-    <motion.div whileHover={{ y: -4 }} className="menu-card group relative">
-      <div className="absolute top-0 left-0 w-0.5 h-full bg-gradient-to-b from-transparent via-sp-orange/20 to-transparent group-hover:via-sp-orange/40 transition-all" />
-      <div className="px-5 pt-5 pb-4">
-        <div className="flex items-start justify-between gap-3 mb-2">
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 flex-wrap">
-              {item.is_special && <Star size={14} className="text-sp-orange fill-sp-orange flex-shrink-0" />}
-              {item.original_price && item.original_price > item.price && (
-                <span className="bg-red-500/15 text-red-400 text-[10px] font-bold px-1.5 py-0.5 rounded">-{Math.round((1 - item.price / item.original_price) * 100)}%</span>
-              )}
-              <h3 className="text-sp-cream font-bold text-lg leading-tight">{item.name}</h3>
-            </div>
-            <div className="flex flex-wrap gap-1.5 mt-1.5">
-              {item.is_gluten_free && <span className="text-[10px] bg-green-500/10 text-green-400/70 px-1.5 py-0.5 rounded">Без глютена</span>}
-              {item.is_lactose_free && <span className="text-[10px] bg-blue-500/10 text-blue-400/70 px-1.5 py-0.5 rounded">Без лактозы</span>}
-            </div>
-          </div>
-          <div className="text-right flex-shrink-0">
-            {item.original_price && item.original_price > item.price && (
-              <div className="text-sp-cream/30 text-xs line-through">{item.original_price.toLocaleString('ru-RU')} ₽</div>
-            )}
-            <div className="text-sp-orange font-bold text-2xl tracking-tight">{item.price.toLocaleString('ru-RU')} ₽</div>
-          </div>
+    <motion.div
+      whileHover={{ y: -3 }}
+      className="menu-card group relative flex flex-col h-full overflow-hidden"
+    >
+      {/* Top gradient accent — animates on hover */}
+      <div className="h-0.5 bg-gradient-to-r from-transparent via-sp-orange/30 to-transparent group-hover:via-sp-orange transition-all duration-500" />
+
+      <div className="flex flex-col h-full p-4">
+        {/* Badges row */}
+        <div className="flex items-center gap-1.5 mb-2.5 flex-wrap">
+          {item.is_special && (
+            <span className="inline-flex items-center gap-1 bg-sp-orange/12 border border-sp-orange/25 text-sp-orange text-[10px] font-bold px-2 py-0.5 rounded-full">
+              <Star size={8} fill="currentColor" /> Хит
+            </span>
+          )}
+          {discount > 0 && (
+            <span className="bg-red-500/15 text-red-400 text-[10px] font-bold px-2 py-0.5 rounded-full">
+              -{discount}%
+            </span>
+          )}
+          {item.is_gluten_free && (
+            <span className="text-[9px] bg-green-500/10 text-green-400/70 px-1.5 py-0.5 rounded-full border border-green-500/10">БГ</span>
+          )}
+          {item.is_lactose_free && (
+            <span className="text-[9px] bg-blue-500/10 text-blue-400/70 px-1.5 py-0.5 rounded-full border border-blue-500/10">БЛ</span>
+          )}
         </div>
 
-        {item.description && (
-          <p className="text-sp-cream/50 text-sm leading-relaxed mb-3">{item.description}</p>
+        {/* Name — full width, no price next to it */}
+        <h3 className="text-sp-cream font-bold text-sm md:text-[15px] leading-snug mb-2 flex-shrink-0">
+          {item.name}
+        </h3>
+
+        {/* Description */}
+        {item.description ? (
+          <p className="text-sp-cream/45 text-xs leading-relaxed line-clamp-2 flex-grow mb-2">
+            {item.description}
+          </p>
+        ) : (
+          <div className="flex-grow" />
         )}
 
-        <div className="flex items-center gap-3 text-xs text-sp-cream/40 mb-4">
-          {item.calories && <span className="flex items-center gap-1"><Flame size={11} />{item.calories} ккал</span>}
-          {item.cook_time && <span className="flex items-center gap-1"><Clock size={11} />{item.cook_time} мин</span>}
-        </div>
+        {/* Meta row */}
+        {(item.calories || item.cook_time) && (
+          <div className="flex items-center gap-3 mb-3">
+            {item.calories && (
+              <span className="flex items-center gap-0.5 text-[10px] text-sp-cream/30">
+                <Flame size={9} />{item.calories} ккал
+              </span>
+            )}
+            {item.cook_time && (
+              <span className="flex items-center gap-0.5 text-[10px] text-sp-cream/30">
+                <Clock size={9} />{item.cook_time} мин
+              </span>
+            )}
+          </div>
+        )}
 
-        <div className="flex items-center justify-between pt-3 border-t border-white/5">
+        {/* Price + action — always at bottom */}
+        <div className="mt-auto pt-3 border-t border-white/[0.05] flex items-center justify-between gap-2">
+          <div className="min-w-0">
+            {discount > 0 && (
+              <div className="text-sp-cream/25 text-[10px] line-through leading-none">
+                {item.original_price!.toLocaleString('ru-RU')} ₽
+              </div>
+            )}
+            <div className="text-sp-orange font-bold text-lg leading-tight tabular-nums">
+              {item.price.toLocaleString('ru-RU')} ₽
+            </div>
+          </div>
+
           {item.is_bar ? (
-            <span className={`flex items-center gap-1.5 border text-xs font-bold px-3 py-1.5 rounded-lg ${item.category === 'Безалкогольное' ? 'text-sp-cream/40 border-white/10' : 'text-red-400 border-red-500/30'}`}>
-              {item.category !== 'Безалкогольное' && <span className="text-sm">🔞</span>}
+            <span className={`flex-shrink-0 text-[10px] font-bold border px-2 py-1 rounded-lg ${
+              item.category === 'Безалкогольное'
+                ? 'text-sp-cream/40 border-white/10'
+                : 'text-red-400 border-red-500/30'
+            }`}>
               {item.category === 'Безалкогольное' ? 'В зале' : '18+'}
             </span>
           ) : (
-            <span />
-          )}
-          {!item.is_bar && (
-            <button onClick={handleAdd} className="btn-add">
-              <Plus size={16} />
+            <button
+              onClick={handleAdd}
+              className="btn-add flex-shrink-0"
+              aria-label={`Добавить ${item.name} в корзину`}
+            >
+              <Plus size={14} />
               В корзину
             </button>
           )}
