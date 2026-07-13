@@ -205,7 +205,7 @@ export default function OrderStatus() {
         {/* Contact */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="text-center">
           <p className="text-sp-cream/30 text-sm mb-3">Есть вопросы по заказу?</p>
-          <a href="tel:+79055471640" className="btn-primary inline-flex items-center gap-2">
+          <a href="tel:+79257677778" className="btn-primary inline-flex items-center gap-2">
             <Phone size={16} /> Позвонить в кафе
           </a>
         </motion.div>

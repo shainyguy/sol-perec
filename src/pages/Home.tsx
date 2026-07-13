@@ -487,7 +487,7 @@ export default function Home() {
                     <ShoppingBag size={18} /> Заказать доставку
                   </Link>
                   <a
-                    href="tel:+79055471640"
+                    href="tel:+79257677778"
                     className="inline-flex items-center justify-center gap-2 border border-white/20 hover:border-white/35 text-sp-cream font-medium px-8 py-4 rounded-full transition-all hover:bg-white/5 backdrop-blur-sm"
                   >
                     <Phone size={18} /> Позвонить
@@ -612,7 +612,7 @@ export default function Home() {
                   <Sparkles size={18} /> Заказать банкет
                 </Link>
                 <a
-                  href="tel:+79055471640"
+                  href="tel:+79257677778"
                   className="inline-flex items-center justify-center gap-2 border border-white/20 hover:border-white/35 text-sp-cream font-medium px-8 py-4 rounded-full transition-all hover:bg-white/5 backdrop-blur-sm"
                 >
                   <Phone size={18} /> Позвонить
@@ -742,7 +742,7 @@ export default function Home() {
             <div className="lg:col-span-2 space-y-3">
               {[
                 { icon: MapPin, title: 'Адрес', text: 'Химки, ул. Некрасова 15', sub: 'Рядом МЦД Сходня', href: undefined as string | undefined },
-                { icon: Phone, title: 'Телефон', text: '+7 (905) 547-16-40', sub: 'Звонки и WhatsApp', href: 'tel:+79055471640' },
+                { icon: Phone, title: 'Телефон', text: '8 (925) 767-77-78', sub: 'Звонки и WhatsApp', href: 'tel:+79257677778' },
                 { icon: Clock, title: 'Часы работы', text: 'Пн–Пт: 09:00–01:00', sub: 'Сб–Вс: 09:00–05:00', href: undefined },
               ].map((c, i) => {
                 const Icon = c.icon;
@@ -767,7 +767,7 @@ export default function Home() {
               })}
               <RevealSection delay={0.4}>
                 <a
-                  href="tel:+79055471640"
+                  href="tel:+79257677778"
                   className="flex items-center justify-center gap-2 bg-sp-orange hover:bg-sp-orange/90 text-white font-bold px-6 py-3.5 rounded-full text-sm transition-all shadow-lg shadow-sp-orange/20"
                 >
                   <Phone size={15} /> Позвонить сейчас
@@ -830,10 +830,10 @@ export default function Home() {
               <Sparkles size={18} /> Забронировать стол
             </Link>
             <a
-              href="tel:+79055471640"
+              href="tel:+79257677778"
               className="inline-flex items-center justify-center gap-2.5 border-2 border-white/40 text-white font-bold px-10 py-4 rounded-full text-base transition-all hover:bg-white/10 hover:border-white/60"
             >
-              <Phone size={18} /> +7 (905) 547-16-40
+              <Phone size={18} /> 8 (925) 767-77-78
             </a>
           </div>
         </motion.div>
@@ -845,7 +845,7 @@ export default function Home() {
         '@type': 'Restaurant',
         name: 'Соль и Перец',
         url: 'https://sol-i-perets.ru',
-        telephone: '+79055471640',
+        telephone: '+79257677778',
         address: { '@type': 'PostalAddress', streetAddress: 'ул. Некрасова 15', addressLocality: 'Химки', addressRegion: 'Московская обл.', addressCountry: 'RU' },
         servesCuisine: ['Russian', 'Caucasian', 'Grill'],
         priceRange: '₽₽',

@@ -153,7 +153,7 @@ export default function Banquet() {
             >
               Отправить ещё
             </button>
-            <a href="tel:+79055471640" className="btn-secondary inline-flex items-center justify-center gap-2">
+            <a href="tel:+79257677778" className="btn-secondary inline-flex items-center justify-center gap-2">
               <Phone size={15} />Позвонить
             </a>
           </div>
@@ -533,7 +533,7 @@ export default function Banquet() {
             </div>
             <div className="flex gap-3 flex-shrink-0">
               <a
-                href="tel:+79055471640"
+                href="tel:+79257677778"
                 className="inline-flex items-center gap-2 bg-sp-orange hover:bg-sp-orange/90 text-white font-bold px-5 py-2.5 rounded-full text-sm transition-all"
               >
                 <Phone size={14} /> Позвонить

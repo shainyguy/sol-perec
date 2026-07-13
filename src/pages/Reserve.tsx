@@ -22,7 +22,7 @@ const TIMES = [
 const TRUST_SIGNALS = [
   { icon: CheckCircle, text: 'Подтверждаем в течение 15 минут' },
   { icon: Shield,       text: 'Бесплатная отмена за 2 часа' },
-  { icon: Phone,        text: 'Или позвоните: +7 (905) 547-16-40' },
+  { icon: Phone,        text: 'Или позвоните: 8 (925) 767-77-78' },
 ];
 
 export default function Reserve() {
@@ -154,7 +154,7 @@ export default function Reserve() {
           )}
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <button onClick={reset} className="btn-primary">Забронировать ещё</button>
-            <a href="tel:+79055471640" className="btn-secondary inline-flex items-center justify-center gap-2">
+            <a href="tel:+79257677778" className="btn-secondary inline-flex items-center justify-center gap-2">
               <Phone size={15} />Позвонить
             </a>
           </div>

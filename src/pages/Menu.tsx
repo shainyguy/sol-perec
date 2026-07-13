@@ -237,7 +237,7 @@ export default function Menu() {
             </label>
             {/* Mobile call CTA */}
             <a
-              href="tel:+79055471640"
+              href="tel:+79257677778"
               className="ml-auto flex items-center gap-1.5 text-xs text-sp-orange border border-sp-orange/30 hover:bg-sp-orange/10 px-3 py-1.5 rounded-full transition-all flex-shrink-0"
             >
               <Phone size={11} /> Заказать
@@ -384,10 +384,10 @@ export default function Menu() {
                   Забронировать стол
                 </Link>
                 <a
-                  href="tel:+79055471640"
+                  href="tel:+79257677778"
                   className="inline-flex items-center gap-2 border border-white/20 hover:border-white/35 text-sp-cream font-medium px-6 py-3 rounded-full text-sm transition-all hover:bg-white/5"
                 >
-                  <Phone size={15} /> +7 (905) 547-16-40
+                  <Phone size={15} /> 8 (925) 767-77-78
                 </a>
               </div>
             </div>

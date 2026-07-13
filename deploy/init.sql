@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS settings (
 INSERT INTO settings (key, value) VALUES
   ('telegram_bot_token', ''),
   ('telegram_chat_id',   ''),
-  ('site_phone',         '+7 (905) 547-16-40'),
+  ('site_phone',         '8 (925) 767-77-78'),
   ('site_address',       'Московская обл., Химки, ул. Некрасова 15')
 ON CONFLICT (key) DO NOTHING;
 

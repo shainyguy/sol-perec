@@ -72,7 +72,7 @@ function MyTableTab({ tableNum }: { tableNum: string }) {
           <p className="text-xs text-gray-400 uppercase font-bold">Ваш официант</p>
           <p className="text-lg font-bold text-gray-900">{order?.waiterName}</p>
         </div>
-        <a href="tel:+79055471640" className="ml-auto bg-green-50 text-green-600 px-3 py-1.5 rounded-lg text-xs font-bold border border-green-100">
+        <a href="tel:+79257677778" className="ml-auto bg-green-50 text-green-600 px-3 py-1.5 rounded-lg text-xs font-bold border border-green-100">
           Позвать
         </a>
       </div>
@@ -183,7 +183,7 @@ export default function QrMenu() {
                 {tableNum ? `Стол №${tableNum}` : 'Меню'}
               </div>
             </div>
-            <a href="tel:+79055471640" className="bg-white/10 hover:bg-white/20 text-white p-2 rounded-full transition-colors">
+            <a href="tel:+79257677778" className="bg-white/10 hover:bg-white/20 text-white p-2 rounded-full transition-colors">
                📞
             </a>
           </div>

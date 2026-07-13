@@ -5,7 +5,7 @@ export default function Privacy() {
   const inn = "502413316035";
   const ogrnip = "326774600287612"; // <-- Эта строка отсутствовала, вызывая ошибку
   const address = "Московская обл., г. Химки, ул. Некрасова, д. 15";
-  const phone = "+7 (905) 547-16-40";
+  const phone = "8 (925) 767-77-78";
   const email = "fine.ehtibar@yandex.ru";
   const siteUrl = "solperets.ru";
 
