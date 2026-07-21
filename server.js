@@ -112,6 +112,15 @@ function injectMeta(req, res) {
 }
 app.get('*', injectMeta);
 
+// ── Error handler (catches scanner bots: /..%c0%af.env etc.) ──────────────────
+app.use((err, _req, res, _next) => {
+  if (err instanceof URIError || err.message?.includes('decode')) {
+    return res.status(400).json({ error: 'invalid path' });
+  }
+  console.error(err);
+  res.status(500).json({ error: 'internal error' });
+});
+
 // ── Start ─────────────────────────────────────────────────────────────────────
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`\n🚀  Соль и Перец | http://localhost:${PORT}`);
